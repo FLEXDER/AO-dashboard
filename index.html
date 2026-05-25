@@ -88,7 +88,6 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
 .ts{max-height:600px;overflow-y:auto}.ts::-webkit-scrollbar{width:4px}.ts::-webkit-scrollbar-track{background:var(--s1)}.ts::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
 .ft{text-align:center;padding:24px;color:var(--t3);font-size:10px;border-top:1px solid var(--s3);margin-top:24px}.ft span{color:var(--gd)}
 .total-row td{background:rgba(201,168,76,.08)!important;border-top:2px solid var(--gold)!important}
-.amp{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold2);font-weight:400;letter-spacing:0;opacity:.85}
 
 /* ======= NOTES ======= */
 .note{background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.18);border-left:3px solid var(--gold);border-radius:8px;padding:14px 18px;margin:14px 0;font-size:12px;color:var(--t2);line-height:1.6}
@@ -103,9 +102,73 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
 .cc,.kp,.kpc{animation:fu .5s ease both}
 
 @media(max-width:768px){.cg,.cg.cg3,.cg.cg5{grid-template-columns:1fr}.kp{padding:10px 14px}.ct{padding:10px}.fi{min-width:140px}}
+
+/* ======= LOCK SCREEN ======= */
+.lock{position:fixed;inset:0;z-index:10000;background:radial-gradient(circle at 50% 30%,rgba(201,168,76,.08) 0%,transparent 50%),linear-gradient(180deg,#0a0b0f 0%,#06070a 100%);display:flex;align-items:center;justify-content:center;animation:fadeIn .4s ease}
+.lock.hide{opacity:0;pointer-events:none;transition:opacity .5s ease}
+.lock-box{text-align:center;padding:36px 32px;max-width:340px;width:90%;animation:fu .6s ease both}
+.lock-mark{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gd),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:26px;color:var(--bg);letter-spacing:1px;margin:0 auto 20px;box-shadow:0 8px 32px rgba(201,168,76,.25)}
+.lock h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--gold2),#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.lock .lsub{font-size:10px;color:var(--t2);letter-spacing:4px;text-transform:uppercase;margin-bottom:6px}
+.lock .ltour{font-family:'Playfair Display',serif;font-size:12px;color:var(--gd);font-style:italic;margin-bottom:26px}
+
+/* PIN dots progress */
+.lock-dots{display:flex;justify-content:center;gap:14px;margin-bottom:24px}
+.lock-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--s3);background:transparent;transition:all .25s}
+.lock-dot.fill{background:var(--gold);border-color:var(--gold);box-shadow:0 0 12px rgba(201,168,76,.5)}
+.lock-dots.err .lock-dot{background:var(--red);border-color:var(--red);box-shadow:0 0 8px rgba(248,113,113,.5);animation:shake .4s ease}
+
+/* PIN pad */
+.lock-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:280px;margin:0 auto}
+.lock-key{aspect-ratio:1;background:var(--s1);border:1px solid var(--s3);border-radius:50%;color:var(--gold);font-family:'Playfair Display',serif;font-size:24px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;user-select:none;-webkit-tap-highlight-color:transparent}
+.lock-key:hover{background:var(--s2);border-color:var(--gd);box-shadow:0 0 16px rgba(201,168,76,.15)}
+.lock-key:active{transform:scale(.94);background:var(--gd);color:var(--bg)}
+.lock-key.del{font-family:'DM Sans';font-size:16px;color:var(--t2);font-weight:400}
+.lock-key.del:hover{color:var(--red);border-color:rgba(248,113,113,.3)}
+.lock-key.empty{background:transparent;border:none;cursor:default;pointer-events:none}
+.lock-foot{margin-top:24px;font-size:9px;color:var(--t3);letter-spacing:3px;text-transform:uppercase}
+.lock-foot span{color:var(--gd)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* Lock button in top nav */
+.lock-out{background:var(--s1);border:1px solid var(--s3);color:var(--t2);padding:8px 10px;border-radius:6px;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:6px;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-family:'DM Sans';font-weight:500}
+.lock-out:hover{color:var(--gold);border-color:var(--gd)}
+.lock-out svg{width:12px;height:12px;fill:currentColor}
 </style>
 </head>
 <body>
+
+<!-- ============== LOCK SCREEN ============== -->
+<div class="lock" id="lock">
+  <div class="lock-box">
+    <div class="lock-mark">AO</div>
+    <h2>Alfredo Olivas</h2>
+    <div class="lsub">Dashboard Multi-Año</div>
+    <div class="ltour">Acceso Restringido &middot; Flexder Corporativo</div>
+    <div class="lock-dots" id="lock-dots">
+      <div class="lock-dot"></div>
+      <div class="lock-dot"></div>
+      <div class="lock-dot"></div>
+      <div class="lock-dot"></div>
+    </div>
+    <div class="lock-pad" id="lock-pad">
+      <button class="lock-key" data-k="1">1</button>
+      <button class="lock-key" data-k="2">2</button>
+      <button class="lock-key" data-k="3">3</button>
+      <button class="lock-key" data-k="4">4</button>
+      <button class="lock-key" data-k="5">5</button>
+      <button class="lock-key" data-k="6">6</button>
+      <button class="lock-key" data-k="7">7</button>
+      <button class="lock-key" data-k="8">8</button>
+      <button class="lock-key" data-k="9">9</button>
+      <button class="lock-key empty"></button>
+      <button class="lock-key" data-k="0">0</button>
+      <button class="lock-key del" data-k="del">&larr;</button>
+    </div>
+    <div class="lock-foot">Datos confidenciales &middot; <span>Solo personal autorizado</span></div>
+  </div>
+</div>
 
 <!-- ============== TOP NAV ============== -->
 <div class="topnav">
@@ -117,12 +180,18 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
         <p>Dashboard Multi-Año &middot; Flexder</p>
       </div>
     </div>
-    <div class="ynv">
-      <button data-y="2023">2023</button>
-      <button data-y="2024">2024</button>
-      <button data-y="2025" class="ac">2025</button>
-      <button data-y="2026">2026</button>
-      <button data-y="cons">Consolidado</button>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <div class="ynv">
+        <button data-y="2023">2023</button>
+        <button data-y="2024">2024</button>
+        <button data-y="2025" class="ac">2025</button>
+        <button data-y="2026">2026</button>
+        <button data-y="cons">Consolidado</button>
+      </div>
+      <button class="lock-out" id="lock-out" title="Bloquear dashboard">
+        <svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 5a3 3 0 1 1 6 0v3H9V6z"/></svg>
+        Salir
+      </button>
     </div>
   </div>
 </div>
@@ -139,13 +208,13 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
     <div class="kp"><div class="nm">25+</div><div class="lb">Estados</div></div>
     <div class="kp"><div class="nm">12+</div><div class="lb">Sold Out</div></div>
     <div class="kp"><div class="nm" style="color:var(--spo)">TRIUNFADOR</div><div class="lb">Feb-Jul</div></div>
-    <div class="kp"><div class="nm" style="color:var(--marolvi)">TRIOMFAR<br><span class="amp">&amp;</span> BARZA</div><div class="lb">Ago-Dic</div></div>
+    <div class="kp"><div class="nm" style="color:var(--marolvi)">TRIOMFAR<br>&amp; BARZA</div><div class="lb">Ago-Dic</div></div>
   </div>
 </div>
 <div class="ct">
-  <div class="st"><span class="dt"></span>Estructura Corporativa <span class="amp">&amp;</span> Análisis</div>
+  <div class="st"><span class="dt"></span>Estructura Corporativa &amp; Análisis</div>
   <div class="cg">
-    <div class="cc"><h3>Eventos por Estructura</h3><div class="cs">Triunfador (antigua) &rarr; Transición &rarr; Triomfar <span class="amp">&amp;</span> Barza (nueva)</div><div class="cw"><canvas id="c0"></canvas></div></div>
+    <div class="cc"><h3>Eventos por Estructura</h3><div class="cs">Triunfador (antigua) &rarr; Transición &rarr; Triomfar &amp; Barza (nueva)</div><div class="cw"><canvas id="c0"></canvas></div></div>
     <div class="cc"><h3>Eventos por Mes</h3><div class="cs">Coloreados por estructura corporativa</div><div class="cw"><canvas id="c1"></canvas></div></div>
   </div>
   <div class="cg">
@@ -157,7 +226,7 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
     <div class="cc"><h3>Entidad Receptora</h3><div class="cs">Canal final del dinero: Triunfador/Triomfar vs Barza vs Efectivo</div><div class="cw"><canvas id="c5"></canvas></div></div>
   </div>
   <div class="cg">
-    <div class="cc cf"><h3>Flujo de Pagos por Estructura</h3><div class="cs">Triunfador: todo mezclado &middot; Triomfar <span class="amp">&amp;</span> Barza: Empresarios&rarr;Triomfar, Boleteras&rarr;Barza</div><div class="cw"><canvas id="c6"></canvas></div></div>
+    <div class="cc cf"><h3>Flujo de Pagos por Estructura</h3><div class="cs">Triunfador: todo mezclado &middot; Triomfar &amp; Barza: Empresarios&rarr;Triomfar, Boleteras&rarr;Barza</div><div class="cw"><canvas id="c6"></canvas></div></div>
   </div>
 
   <div class="st"><span class="dt"></span>Cruce con CFDI &mdash; Ingresos Facturados 2023</div>
@@ -190,7 +259,7 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
     <button class="fb ac" onclick="ft23('all',this)">Todos</button>
     <button class="fb" onclick="ft23('spo',this)">TRIUNFADOR (Antigua)</button>
     <button class="fb" onclick="ft23('trans',this)">Transición</button>
-    <button class="fb" onclick="ft23('mar',this)">TRIOMFAR <span class="amp">&amp;</span> BARZA</button>
+    <button class="fb" onclick="ft23('mar',this)">TRIOMFAR &amp; BARZA</button>
     <button class="fb" onclick="ft23('so',this)">Sold Out</button>
     <button class="fb" onclick="ft23('ef',this)">Pago Efectivo</button>
   </div>
@@ -257,7 +326,7 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
 <div class="hero">
   <div class="tour">Gira VIVO &middot; Detalle Financiero</div>
   <h1>Alfredo Olivas 2025</h1>
-  <div class="sub">P<span class="amp">&amp;</span>L Detallado &middot; 48 Eventos</div>
+  <div class="sub">P&amp;L Detallado &middot; 48 Eventos</div>
   <div class="ks">
     <div class="kp"><div class="nm">48</div><div class="lb">Eventos</div></div>
     <div class="kp"><div class="nm">$610M</div><div class="lb">Ingresos</div></div>
@@ -296,7 +365,7 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
   <div class="st"><span class="dt"></span>Top Margen <span class="stsub">Eventos más rentables &middot; Margen sobre 85%</span></div>
   <div class="cg cg5" id="hm-grid"></div>
 
-  <div class="st"><span class="dt"></span>Agenda Financiera 2025 <span class="stsub">48 eventos &middot; P<span class="amp">&amp;</span>L por evento</span></div>
+  <div class="st"><span class="dt"></span>Agenda Financiera 2025 <span class="stsub">48 eventos &middot; P&amp;L por evento</span></div>
   <div class="fl">
     <input class="fi" type="text" id="si25" placeholder="Buscar evento...">
     <button class="fb ac" onclick="ft25('all',this)">Todos</button>
@@ -327,7 +396,7 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
 <div class="ct">
   <div class="note"><strong>Año en curso.</strong> Solo hay 2 eventos cerrados al cierre del archivo (León GTO 9-ene y Arandas 10-ene). Esta vista se irá llenando conforme avancen las fechas y se actualice el Excel de ingresos y egresos. Margen inicial alto (87.9%) porque son eventos pequeños sin gastos externos relevantes.</div>
 
-  <div class="st"><span class="dt"></span>Eventos a la Fecha <span class="stsub">Detalle P<span class="amp">&amp;</span>L</span></div>
+  <div class="st"><span class="dt"></span>Eventos a la Fecha <span class="stsub">Detalle P&amp;L</span></div>
   <div class="tw"><div class="ts"><table><thead><tr>
     <th>Fecha</th><th>Evento</th><th>Ingresos</th><th>Gasto Externo</th><th>Gasto Interno</th><th>Gasto Total</th><th>Utilidad</th><th>Margen</th>
   </tr></thead><tbody id="tb26"></tbody></table></div></div>
@@ -355,11 +424,11 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
     <div class="cc"><h3>Evolución Mensual 2023-2025</h3><div class="cs">Línea temporal comparada</div><div class="cw"><canvas id="cc_2"></canvas></div></div>
   </div>
 
-  <div class="note"><strong>Nota sobre comparabilidad:</strong> los datos de 2023 y 2024 son operativos (agenda interna sin P<span class="amp">&amp;</span>L completo), mientras que 2025 y 2026 son financieros (P<span class="amp">&amp;</span>L sin metadata operativa). El consolidado compara solo métricas que son válidas across years: número de eventos, distribución temporal, y agregados financieros donde están disponibles.</div>
+  <div class="note"><strong>Nota sobre comparabilidad:</strong> los datos de 2023 y 2024 son operativos (agenda interna sin P&amp;L completo), mientras que 2025 y 2026 son financieros (P&amp;L sin metadata operativa). El consolidado compara solo métricas que son válidas across years: número de eventos, distribución temporal, y agregados financieros donde están disponibles.</div>
 
   <div class="st"><span class="dt"></span>Composición por Año</div>
   <div class="cg cg3">
-    <div class="kpc"><div class="l">2023 &middot; Alfa <span class="amp">&amp;</span> Omega</div><div class="v spo">87</div><div class="s">78 públicos + 10 particulares &middot; 25+ estados &middot; Año de transición a MAROLVI</div></div>
+    <div class="kpc"><div class="l">2023 &middot; Alfa &amp; Omega</div><div class="v spo">87</div><div class="s">78 públicos + 10 particulares &middot; 25+ estados &middot; Año de transición a MAROLVI</div></div>
     <div class="kpc"><div class="l">2024 &middot; Intermedio</div><div class="v">61</div><div class="s">45 AO solo + 15 con PDA &middot; 25 estados &middot; 49 ciudades</div></div>
     <div class="kpc"><div class="l">2025 &middot; Gira VIVO</div><div class="v grn">48</div><div class="s">$610M ingresos &middot; $410M utilidad &middot; 67.1% margen</div></div>
     <div class="kpc"><div class="l">2026 &middot; En Curso</div><div class="v mar">2</div><div class="s">$14M ingresos parciales &middot; Continuación VIVO</div></div>
@@ -367,9 +436,44 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
 </div>
 </section>
 
-<div class="ft"><p>Dashboard <span>Flexder Corporativo</span> &middot; Datos compilados de agenda interna, P<span class="amp">&amp;</span>L Gira VIVO y evidencias documentales</p></div>
+<div class="ft"><p>Dashboard <span>Flexder Corporativo</span> &middot; Datos compilados de agenda interna, P&amp;L Gira VIVO y evidencias documentales</p></div>
 
 <script>
+// ========== LOCK SCREEN ==========
+const PIN='0826';
+const lock=document.getElementById('lock');
+const dotsEl=document.getElementById('lock-dots');
+const dots=dotsEl.querySelectorAll('.lock-dot');
+const pad=document.getElementById('lock-pad');
+const lockOut=document.getElementById('lock-out');
+let pinBuf='';
+
+function updateDots(){dots.forEach((d,i)=>d.classList.toggle('fill',i<pinBuf.length))}
+function unlock(){lock.classList.add('hide');sessionStorage.setItem('ao_unlocked','1');setTimeout(()=>lock.style.display='none',500)}
+function relock(){sessionStorage.removeItem('ao_unlocked');lock.style.display='flex';lock.classList.remove('hide');pinBuf='';updateDots()}
+function wrongPin(){dotsEl.classList.add('err');setTimeout(()=>{dotsEl.classList.remove('err');pinBuf='';updateDots()},450)}
+function tryPin(){if(pinBuf===PIN)unlock();else wrongPin()}
+
+pad.addEventListener('click',e=>{
+  const btn=e.target.closest('.lock-key');if(!btn)return;
+  const k=btn.dataset.k;if(!k)return;
+  if(k==='del'){pinBuf=pinBuf.slice(0,-1);updateDots();return}
+  if(pinBuf.length>=4)return;
+  pinBuf+=k;updateDots();
+  if(pinBuf.length===4)setTimeout(tryPin,150);
+});
+
+// Allow physical keyboard too (numbers, backspace, enter)
+document.addEventListener('keydown',e=>{
+  if(lock.classList.contains('hide')||lock.style.display==='none')return;
+  if(/^[0-9]$/.test(e.key)){if(pinBuf.length<4){pinBuf+=e.key;updateDots();if(pinBuf.length===4)setTimeout(tryPin,150)}}
+  else if(e.key==='Backspace'){pinBuf=pinBuf.slice(0,-1);updateDots()}
+  else if(e.key==='Enter'&&pinBuf.length===4)tryPin();
+});
+
+if(sessionStorage.getItem('ao_unlocked')==='1'){lock.style.display='none'}
+lockOut.addEventListener('click',relock);
+
 Chart.defaults.color='#9b99a1';Chart.defaults.font.family="'DM Sans',sans-serif";Chart.defaults.font.size=11;
 const G='rgba(201,168,76,',SPO='rgba(255,152,0,',MAR='rgba(92,107,192,',TRA='rgba(253,216,53,';
 const GR='rgba(74,222,128,',RD='rgba(248,113,113,',BL='rgba(96,165,250,',PR='rgba(167,139,250,',CY='rgba(34,211,238,',OR='rgba(251,146,60,',PK='rgba(244,114,182,';
@@ -550,7 +654,7 @@ function render23(){
 }
 
 function fCP23(cp){if(!cp)return'';if(cp.toLowerCase().includes('efectivo')||cp.toLowerCase().includes('piso'))return'<span class="b-ef">'+cp+'</span>';return cp}
-function fES23(es){if(es==='TRIUNFADOR')return'<span class="bg b-spo">TRIUNFADOR</span>';if(es==='TRIOMFAR & BARZA')return'<span class="bg b-mar">TRIOMFAR <span class="amp">&amp;</span> BARZA</span>';if(es==='TRANS')return'<span class="bg b-tra">TRANSICIÓN</span>';return'<span class="bg b-na">'+es+'</span>'}
+function fES23(es){if(es==='TRIUNFADOR')return'<span class="bg b-spo">TRIUNFADOR</span>';if(es==='TRIOMFAR & BARZA')return'<span class="bg b-mar">TRIOMFAR &amp; BARZA</span>';if(es==='TRANS')return'<span class="bg b-tra">TRANSICIÓN</span>';return'<span class="bg b-na">'+es+'</span>'}
 function fN23(n){return n?'$'+n.toLocaleString('es-MX'):'—'}
 function renderT23(d){let rows='',total=0;
   d.forEach(e=>{total+=e.mo;const sb=e.so?'<span class="bg b-so">SOLD OUT</span> ':'';
