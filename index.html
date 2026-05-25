@@ -3,23 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Alfredo Olivas — Gira 2023</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js">
-// CFDI Facturación
-new Chart(document.getElementById('cCFDI'),{type:'bar',data:{
-  labels:['Triunfador Logística\n(35 facturas)','SACM Regalías\n(17 facturas)','Triomfar\n(1 factura)'],
-  datasets:[{data:[37680359,2960806,1551724],
-    backgroundColor:[SPO+'.7)',G+'.5)',MAR+'.7)'],borderColor:[SPO+'.9)',G+'.7)',MAR+'.9)'],borderWidth:1,borderRadius:6,barPercentage:.5}]},
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'$'+ctx.parsed.y.toLocaleString('es-MX')}}},
-    scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'},ticks:{callback:v=>'$'+(v/1000000).toFixed(0)+'M'}},x:{grid:{display:false}}}}});
-
-</script>
+<title>Alfredo Olivas — Dashboard Multi-Año</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0a0b0f;--s1:#12131a;--s2:#1a1b25;--s3:#22232f;--gold:#c9a84c;--gold2:#e6c868;--gd:#8b7535;--t:#e8e6e1;--t2:#9b99a1;--t3:#5d5b63;--grn:#4ade80;--red:#f87171;--blu:#60a5fa;--pur:#a78bfa;--cyn:#22d3ee;--org:#fb923c;--pnk:#f472b6;--spo:#ff9800;--marolvi:#5c6bc0;--trans:#fdd835}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.012'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+
+/* ======= TOP NAV (year switcher) ======= */
+.topnav{position:sticky;top:0;z-index:100;background:rgba(10,11,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--s3);padding:12px 22px}
+.topnav-in{max-width:1440px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-m{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gd),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:15px;color:var(--bg);letter-spacing:.5px}
+.brand-t h1{font-family:'Playfair Display',serif;font-size:14px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--gold2),#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1.5px;text-transform:uppercase;line-height:1.05}
+.brand-t p{font-size:8px;color:var(--t3);letter-spacing:3px;text-transform:uppercase;margin-top:3px}
+.ynv{display:flex;gap:3px;background:var(--s1);border:1px solid var(--s3);border-radius:8px;padding:3px;flex-wrap:wrap}
+.ynv button{background:none;border:none;color:var(--t2);font-family:'DM Sans';font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;padding:8px 16px;border-radius:6px;cursor:pointer;transition:all .25s;font-weight:500}
+.ynv button:hover{color:var(--gold2)}
+.ynv button.ac{background:var(--gd);color:var(--bg);font-weight:700}
+
+/* ======= HERO (same per year, content varies) ======= */
 .hero{position:relative;padding:44px 40px 30px;text-align:center;background:linear-gradient(180deg,rgba(201,168,76,.08) 0%,transparent 100%)}
 .hero::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--gd),transparent)}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:900;background:linear-gradient(135deg,var(--gold),var(--gold2),#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
@@ -30,19 +35,39 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .kp:not(:last-child)::after{content:'';position:absolute;right:0;top:25%;height:50%;width:1px;background:var(--s3)}
 .kp .nm{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:900;color:var(--gold)}
 .kp .lb{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:2px;margin-top:2px}
+
+/* ======= CONTAINER & SECTIONS ======= */
 .ct{max-width:1440px;margin:0 auto;padding:14px 22px 50px}
 .st{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);margin:28px 0 14px;padding-bottom:7px;border-bottom:1px solid var(--s3);display:flex;align-items:center;gap:9px}
 .st .dt{width:6px;height:6px;background:var(--gold);border-radius:50%}
+.st .stsub{font-family:'DM Sans';font-size:11px;color:var(--t3);font-weight:400;letter-spacing:1px;text-transform:uppercase;margin-left:6px}
+
+/* ======= CARDS ======= */
 .cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:14px;margin-bottom:14px}
+.cg.cg3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.cg.cg5{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
 .cc{background:var(--s1);border:1px solid var(--s3);border-radius:12px;padding:18px;overflow:hidden;transition:border-color .3s}
 .cc:hover{border-color:var(--gd)}
 .cc h3{font-family:'Playfair Display',serif;font-size:14px;color:var(--t);margin-bottom:2px}
 .cc .cs{font-size:10px;color:var(--t3);margin-bottom:12px}
 .cw{position:relative;height:240px}
 .cf{grid-column:1/-1}.cf .cw{height:300px}
+
+/* ======= KPI CARDS ======= */
+.kpc{background:var(--s1);border:1px solid var(--s3);border-radius:12px;padding:16px}
+.kpc .l{font-size:10px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}
+.kpc .v{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--gold);line-height:1.1}
+.kpc .v.sm{font-size:18px}
+.kpc .v.grn{color:var(--grn)}
+.kpc .v.red{color:var(--red)}
+.kpc .v.spo{color:var(--spo)}
+.kpc .v.mar{color:var(--marolvi)}
+.kpc .s{font-size:10px;color:var(--t2);margin-top:4px;line-height:1.45}
+
+/* ======= TABLE ======= */
 .tw{overflow-x:auto;margin-top:14px;border-radius:10px;border:1px solid var(--s3)}
 table{width:100%;border-collapse:collapse;font-size:11px}
-thead th{background:var(--s2);color:var(--gold);font-size:9px;text-transform:uppercase;letter-spacing:1.2px;padding:10px 6px;text-align:left;position:sticky;top:0;border-bottom:2px solid var(--gd);white-space:nowrap}
+thead th{background:var(--s2);color:var(--gold);font-size:9px;text-transform:uppercase;letter-spacing:1.2px;padding:10px 6px;text-align:left;position:sticky;top:0;border-bottom:2px solid var(--gd);white-space:nowrap;z-index:5}
 tbody tr{border-bottom:1px solid var(--s3);transition:background .2s}
 tbody tr:hover{background:rgba(201,168,76,.04)}
 tbody td{padding:6px;color:var(--t2);vertical-align:middle}
@@ -52,9 +77,11 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
 .b-mar{background:rgba(92,107,192,.15);color:var(--marolvi)}
 .b-tra{background:rgba(253,216,53,.2);color:#fdd835}
 .b-na{background:rgba(255,255,255,.06);color:var(--t3)}
+.b-ao{background:rgba(201,168,76,.15);color:var(--gold)}
+.b-pda{background:rgba(96,165,250,.15);color:var(--blu)}
 .b-ef{background:rgba(248,113,113,.15);color:#f87171;padding:2px 7px;border-radius:4px;font-weight:700;font-size:9px}
 .fl{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
-.fi{background:var(--s2);border:1px solid var(--s3);color:var(--t);padding:7px 12px;border-radius:6px;font-size:11px;font-family:'DM Sans';outline:none;min-width:160px}
+.fi{background:var(--s2);border:1px solid var(--s3);color:var(--t);padding:7px 12px;border-radius:6px;font-size:11px;font-family:'DM Sans';outline:none;min-width:200px}
 .fi:focus{border-color:var(--gd)}
 .fb{background:var(--s2);border:1px solid var(--s3);color:var(--t2);padding:6px 12px;border-radius:6px;font-size:10px;cursor:pointer;transition:all .3s;font-family:'DM Sans';text-transform:uppercase;letter-spacing:.8px}
 .fb:hover,.fb.ac{background:var(--gd);color:var(--bg);border-color:var(--gold)}
@@ -62,13 +89,48 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
 .ft{text-align:center;padding:24px;color:var(--t3);font-size:10px;border-top:1px solid var(--s3);margin-top:24px}.ft span{color:var(--gd)}
 .total-row td{background:rgba(201,168,76,.08)!important;border-top:2px solid var(--gold)!important}
 .amp{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold2);font-weight:400;letter-spacing:0;opacity:.85}
-@media(max-width:768px){.cg{grid-template-columns:1fr}.kp{padding:10px 14px}.ct{padding:10px}}
-@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}.cc,.kp{animation:fu .5s ease both}
+
+/* ======= NOTES ======= */
+.note{background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.18);border-left:3px solid var(--gold);border-radius:8px;padding:14px 18px;margin:14px 0;font-size:12px;color:var(--t2);line-height:1.6}
+.note strong{color:var(--gold)}
+.note.warn{background:linear-gradient(135deg,rgba(248,113,113,.06),rgba(248,113,113,.02));border-color:rgba(248,113,113,.25);border-left-color:var(--red)}
+.note.warn strong{color:var(--red)}
+
+/* ======= VIEW SWITCH ======= */
+.yview{display:none;animation:fu .4s ease}
+.yview.ac{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.cc,.kp,.kpc{animation:fu .5s ease both}
+
+@media(max-width:768px){.cg,.cg.cg3,.cg.cg5{grid-template-columns:1fr}.kp{padding:10px 14px}.ct{padding:10px}.fi{min-width:140px}}
 </style>
 </head>
 <body>
+
+<!-- ============== TOP NAV ============== -->
+<div class="topnav">
+  <div class="topnav-in">
+    <div class="brand">
+      <div class="brand-m">AO</div>
+      <div class="brand-t">
+        <h1>Alfredo Olivas</h1>
+        <p>Dashboard Multi-Año &middot; Flexder</p>
+      </div>
+    </div>
+    <div class="ynv">
+      <button data-y="2023">2023</button>
+      <button data-y="2024">2024</button>
+      <button data-y="2025" class="ac">2025</button>
+      <button data-y="2026">2026</button>
+      <button data-y="cons">Consolidado</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ 2023 ============================================================ -->
+<section class="yview" id="view-2023">
 <div class="hero">
-  <div class="tour">Alfa y Omega Tour · Estructura Corporativa</div>
+  <div class="tour">Alfa y Omega Tour &middot; Estructura Corporativa</div>
   <h1>Alfredo Olivas 2023</h1>
   <div class="sub">Dashboard Financiero Definitivo</div>
   <div class="ks">
@@ -83,7 +145,7 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
 <div class="ct">
   <div class="st"><span class="dt"></span>Estructura Corporativa <span class="amp">&amp;</span> Análisis</div>
   <div class="cg">
-    <div class="cc"><h3>Eventos por Estructura</h3><div class="cs">Triunfador (antigua) → Transición → Triomfar <span class="amp">&amp;</span> Barza (nueva)</div><div class="cw"><canvas id="c0"></canvas></div></div>
+    <div class="cc"><h3>Eventos por Estructura</h3><div class="cs">Triunfador (antigua) &rarr; Transición &rarr; Triomfar <span class="amp">&amp;</span> Barza (nueva)</div><div class="cw"><canvas id="c0"></canvas></div></div>
     <div class="cc"><h3>Eventos por Mes</h3><div class="cs">Coloreados por estructura corporativa</div><div class="cw"><canvas id="c1"></canvas></div></div>
   </div>
   <div class="cg">
@@ -91,33 +153,32 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
     <div class="cc"><h3>Estructura de Negociación</h3><div class="cs">Tipos de deal (eventos públicos)</div><div class="cw"><canvas id="c3"></canvas></div></div>
   </div>
   <div class="cg">
-    <div class="cc"><h3>Boleteras</h3><div class="cs">Participación por boletera · Gisela/Giselle y TicketCity operan bajo la misma estructura</div><div class="cw"><canvas id="c4"></canvas></div></div>
+    <div class="cc"><h3>Boleteras</h3><div class="cs">Participación por boletera &middot; Gisela/Giselle y TicketCity operan bajo la misma estructura</div><div class="cw"><canvas id="c4"></canvas></div></div>
     <div class="cc"><h3>Entidad Receptora</h3><div class="cs">Canal final del dinero: Triunfador/Triomfar vs Barza vs Efectivo</div><div class="cw"><canvas id="c5"></canvas></div></div>
   </div>
   <div class="cg">
-    <div class="cc cf"><h3>Flujo de Pagos por Estructura</h3><div class="cs">Triunfador: todo mezclado · Triomfar <span class="amp">&amp;</span> Barza: Empresarios→Triomfar, Boleteras→Barza</div><div class="cw"><canvas id="c6"></canvas></div></div>
+    <div class="cc cf"><h3>Flujo de Pagos por Estructura</h3><div class="cs">Triunfador: todo mezclado &middot; Triomfar <span class="amp">&amp;</span> Barza: Empresarios&rarr;Triomfar, Boleteras&rarr;Barza</div><div class="cw"><canvas id="c6"></canvas></div></div>
   </div>
 
-  
-  <div class="st"><span class="dt"></span>Cruce con CFDI — Ingresos Facturados 2023</div>
+  <div class="st"><span class="dt"></span>Cruce con CFDI &mdash; Ingresos Facturados 2023</div>
   <div class="cg">
-    <div class="cc"><h3>Facturación por Entidad</h3><div class="cs">Total facturado CFDI: $42,192,889.61 · Declarado anual: $43,123,845.51</div><div class="cw"><canvas id="cCFDI"></canvas></div></div>
-    <div class="cc"><h3>Hallazgo: RFC de TRIOMFAR</h3><div class="cs">TRI230731N22 — Constituida 31 de julio 2023</div>
+    <div class="cc"><h3>Facturación por Entidad</h3><div class="cs">Total facturado CFDI: $42,192,889.61 &middot; Declarado anual: $43,123,845.51</div><div class="cw"><canvas id="cCFDI"></canvas></div></div>
+    <div class="cc"><h3>Hallazgo: RFC de TRIOMFAR</h3><div class="cs">TRI230731N22 &mdash; Constituida 31 de julio 2023</div>
       <div style="padding:16px 0">
         <div style="background:var(--s2);border-radius:10px;padding:18px;margin-bottom:10px">
           <div style="font-size:12px;color:var(--t3);margin-bottom:6px">TRIUNFADOR LOGÍSTICA (TLO190128QF0)</div>
           <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--spo);font-weight:900">$37,680,359</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:2px">35 facturas · May-Dic 2023 · 89.3% del total</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px">35 facturas &middot; May-Dic 2023 &middot; 89.3% del total</div>
         </div>
         <div style="background:var(--s2);border-radius:10px;padding:18px;margin-bottom:10px">
           <div style="font-size:12px;color:var(--t3);margin-bottom:6px">TRIOMFAR (TRI230731N22)</div>
           <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--marolvi);font-weight:900">$1,551,724</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:2px">1 factura · 14-Dic 2023 · 3.7% del total</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px">1 factura &middot; 14-Dic 2023 &middot; 3.7% del total</div>
         </div>
         <div style="background:var(--s2);border-radius:10px;padding:18px">
           <div style="font-size:12px;color:var(--t3);margin-bottom:6px">SACM (Regalías / Derechos de Autor)</div>
           <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);font-weight:900">$2,960,806</div>
-          <div style="font-size:10px;color:var(--t3);margin-top:2px">17 facturas · 7.0% del total</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:2px">17 facturas &middot; 7.0% del total</div>
         </div>
       </div>
     </div>
@@ -125,64 +186,199 @@ tbody td{padding:6px;color:var(--t2);vertical-align:middle}
 
   <div class="st"><span class="dt"></span>Listado Completo de Eventos</div>
   <div class="fl">
-    <input class="fi" type="text" id="si" placeholder="Buscar ciudad, empresario, boletera...">
-    <button class="fb ac" onclick="ft('all',this)">Todos</button>
-    <button class="fb" onclick="ft('spo',this)">TRIUNFADOR (Antigua)</button>
-    <button class="fb" onclick="ft('trans',this)">Transición</button>
-    <button class="fb" onclick="ft('mar',this)">TRIOMFAR <span class="amp">&amp;</span> BARZA</button>
-    <button class="fb" onclick="ft('so',this)">Sold Out</button>
-    <button class="fb" onclick="ft('ef',this)">Pago Efectivo</button>
+    <input class="fi" type="text" id="si23" placeholder="Buscar ciudad, empresario, boletera...">
+    <button class="fb ac" onclick="ft23('all',this)">Todos</button>
+    <button class="fb" onclick="ft23('spo',this)">TRIUNFADOR (Antigua)</button>
+    <button class="fb" onclick="ft23('trans',this)">Transición</button>
+    <button class="fb" onclick="ft23('mar',this)">TRIOMFAR <span class="amp">&amp;</span> BARZA</button>
+    <button class="fb" onclick="ft23('so',this)">Sold Out</button>
+    <button class="fb" onclick="ft23('ef',this)">Pago Efectivo</button>
   </div>
   <div class="tw"><div class="ts"><table><thead><tr>
     <th>#</th><th>Fecha</th><th>Ciudad</th><th>Estado</th><th>Venue</th><th>Empresario</th><th>Boletera</th><th>Negociación</th><th>Monto</th><th>Canal Pago</th><th>Entidad Receptora</th><th>Estructura</th><th>Notas</th>
-  </tr></thead><tbody id="tb"></tbody></table></div></div>
-  <div class="ft"><p>Dashboard <span>Flexder Corporativo</span> · Datos compilados de agenda interna y evidencias documentales</p></div>
+  </tr></thead><tbody id="tb23"></tbody></table></div></div>
 </div>
+</section>
+
+<!-- ============================================================ 2024 ============================================================ -->
+<section class="yview" id="view-2024">
+<div class="hero">
+  <div class="tour">Gira 2024 &middot; Año Intermedio</div>
+  <h1>Alfredo Olivas 2024</h1>
+  <div class="sub">Consolidación Territorial</div>
+  <div class="ks">
+    <div class="kp"><div class="nm">61</div><div class="lb">Eventos</div></div>
+    <div class="kp"><div class="nm">25</div><div class="lb">Estados</div></div>
+    <div class="kp"><div class="nm">49</div><div class="lb">Ciudades</div></div>
+    <div class="kp"><div class="nm" style="color:var(--gold)">45</div><div class="lb">AO Solo</div></div>
+    <div class="kp"><div class="nm" style="color:var(--blu)">15</div><div class="lb">Con PDA</div></div>
+    <div class="kp"><div class="nm">11</div><div class="lb">Meses Activos</div></div>
+  </div>
+</div>
+<div class="ct">
+  <div class="st"><span class="dt"></span>Distribución y Análisis <span class="stsub">Geografía y operativa 2024</span></div>
+  <div class="cg">
+    <div class="cc"><h3>Eventos por Mes</h3><div class="cs">Distribución mensual a lo largo del año</div><div class="cw"><canvas id="c24_1"></canvas></div></div>
+    <div class="cc"><h3>AO vs PDA</h3><div class="cs">Profugos del Anexo opera 50/50 con AO en sus eventos</div><div class="cw"><canvas id="c24_2"></canvas></div></div>
+  </div>
+  <div class="cg">
+    <div class="cc"><h3>Top Estados</h3><div class="cs">Estados con más fechas en el año</div><div class="cw"><canvas id="c24_3"></canvas></div></div>
+    <div class="cc"><h3>Boleteras Identificadas</h3><div class="cs">Solo 16 de 61 eventos tienen boletera documentada en agenda</div><div class="cw"><canvas id="c24_4"></canvas></div></div>
+  </div>
+
+  <div class="st"><span class="dt"></span>Highlights del Año <span class="stsub">Eventos con monto declarado</span></div>
+  <div class="cg cg3">
+    <div class="kpc"><div class="l">Monterrey 3 noches</div><div class="v">$66.75M</div><div class="s">Estadio Banorte &middot; Feb 15-17 &middot; 50/50 con PDA</div></div>
+    <div class="kpc"><div class="l">León</div><div class="v">$29.22M</div><div class="s">Recinto &middot; May 18 &middot; 50/50 con JA</div></div>
+    <div class="kpc"><div class="l">Chihuahua Plaza del Ángel</div><div class="v">$25.00M +IVA</div><div class="s">Sep 15 &middot; AO directo &middot; Abonos $18.85M</div></div>
+    <div class="kpc"><div class="l">Puebla Estadio</div><div class="v">$18.36M</div><div class="s">Dic 14 &middot; 50/50 AO-JA &middot; Ticketcity</div></div>
+    <div class="kpc"><div class="l">Boca del Río</div><div class="v">$15.34M</div><div class="s">Abr 6 &middot; Total AO &middot; Vía TRIOMFAR + BARZA</div></div>
+    <div class="kpc"><div class="l">Culiacán</div><div class="v">$12.11M</div><div class="s">May 11 &middot; Estadio Dorados &middot; 100% taquilla</div></div>
+  </div>
+
+  <div class="note"><strong>Monto declarado total documentado:</strong> $171.67M en 11 eventos con cifra registrada. Los otros 50 eventos no traen monto en la agenda interna, así que el ingreso real de gira 2024 es significativamente mayor.</div>
+
+  <div class="st"><span class="dt"></span>Agenda Completa 2024 <span class="stsub">61 eventos &middot; Feb-Dic</span></div>
+  <div class="fl">
+    <input class="fi" type="text" id="si24" placeholder="Buscar ciudad, estado, recinto, boletera...">
+    <button class="fb ac" onclick="ft24('all',this)">Todos</button>
+    <button class="fb" onclick="ft24('ao',this)">AO Solo</button>
+    <button class="fb" onclick="ft24('pda',this)">Con PDA</button>
+    <button class="fb" onclick="ft24('declared',this)">Con Monto</button>
+  </div>
+  <div class="tw"><div class="ts"><table><thead><tr>
+    <th>#</th><th>Fecha</th><th>Ciudad</th><th>Estado</th><th>Recinto</th><th>Tipo</th><th>Boletera</th><th>Negociación</th><th>Monto</th><th>Producción</th>
+  </tr></thead><tbody id="tb24"></tbody></table></div></div>
+</div>
+</section>
+
+<!-- ============================================================ 2025 ============================================================ -->
+<section class="yview ac" id="view-2025">
+<div class="hero">
+  <div class="tour">Gira VIVO &middot; Detalle Financiero</div>
+  <h1>Alfredo Olivas 2025</h1>
+  <div class="sub">P<span class="amp">&amp;</span>L Detallado &middot; 48 Eventos</div>
+  <div class="ks">
+    <div class="kp"><div class="nm">48</div><div class="lb">Eventos</div></div>
+    <div class="kp"><div class="nm">$610M</div><div class="lb">Ingresos</div></div>
+    <div class="kp"><div class="nm" style="color:var(--red)">$203M</div><div class="lb">Gasto Total</div></div>
+    <div class="kp"><div class="nm" style="color:var(--grn)">$410M</div><div class="lb">Utilidad</div></div>
+    <div class="kp"><div class="nm">67.1%</div><div class="lb">Margen</div></div>
+  </div>
+</div>
+<div class="ct">
+  <div class="st"><span class="dt"></span>Resumen Financiero <span class="stsub">Antes de impuestos y gastos fijos</span></div>
+  <div class="cg cg5">
+    <div class="kpc"><div class="l">Ingresos Totales</div><div class="v">$610.3M</div><div class="s">48 eventos con ingreso registrado</div></div>
+    <div class="kpc"><div class="l">Gastos Externos</div><div class="v sm">$76.6M</div><div class="s">12.6% del ingreso &middot; reportado en 9 eventos</div></div>
+    <div class="kpc"><div class="l">Gastos Internos</div><div class="v sm">$126.9M</div><div class="s">20.8% del ingreso &middot; reportado en 46 eventos</div></div>
+    <div class="kpc"><div class="l">Utilidad Neta</div><div class="v grn">$409.7M</div><div class="s">Antes de impuestos y gastos fijos</div></div>
+    <div class="kpc"><div class="l">Margen Consolidado</div><div class="v">67.1%</div><div class="s">Promedio ponderado por ingreso</div></div>
+  </div>
+
+  <div class="st"><span class="dt"></span>Evolución Mensual <span class="stsub">Ingresos, gastos y utilidad por mes</span></div>
+  <div class="cg"><div class="cc cf"><div class="cw" style="height:340px"><canvas id="c25_1"></canvas></div></div></div>
+
+  <div class="cg">
+    <div class="cc"><h3>Top 10 Eventos por Utilidad</h3><div class="cs">Mayor contribución a la utilidad anual</div><div class="cw" style="height:340px"><canvas id="c25_2"></canvas></div></div>
+    <div class="cc"><h3>Top 10 Eventos por Ingreso</h3><div class="cs">Mayor facturación bruta</div><div class="cw" style="height:340px"><canvas id="c25_3"></canvas></div></div>
+  </div>
+
+  <div class="cg">
+    <div class="cc"><h3>Distribución de Gastos</h3><div class="cs">Externos vs Internos en el consolidado</div><div class="cw"><canvas id="c25_4"></canvas></div></div>
+    <div class="cc"><h3>Margen por Evento</h3><div class="cs">% utilidad sobre ingresos &middot; cronológico &middot; puntos rojos = margen menor a 50%</div><div class="cw"><canvas id="c25_5"></canvas></div></div>
+  </div>
+
+  <div class="st"><span class="dt"></span>Alertas <span class="stsub">Eventos con margen menor a 50%</span></div>
+  <div class="note warn"><strong id="lm-count">7 eventos</strong> cerraron con margen abajo de 50%. El caso más extremo: <strong>Pachuquilla (Jun 7)</strong> con apenas 12% de margen. Estos eventos justifican revisión de gastos externos y deal de producción. Además, <strong>Autlán (Mar 3) y Ameca (Mar 4)</strong> no traen ingreso registrado pero sí gastos &middot; faltan datos en el archivo o son eventos cancelados.</div>
+  <div class="cg cg3" id="lm-grid"></div>
+
+  <div class="st"><span class="dt"></span>Top Margen <span class="stsub">Eventos más rentables &middot; Margen sobre 85%</span></div>
+  <div class="cg cg5" id="hm-grid"></div>
+
+  <div class="st"><span class="dt"></span>Agenda Financiera 2025 <span class="stsub">48 eventos &middot; P<span class="amp">&amp;</span>L por evento</span></div>
+  <div class="fl">
+    <input class="fi" type="text" id="si25" placeholder="Buscar evento...">
+    <button class="fb ac" onclick="ft25('all',this)">Todos</button>
+    <button class="fb" onclick="ft25('hi',this)">Margen &gt;80%</button>
+    <button class="fb" onclick="ft25('lo',this)">Margen &lt;50%</button>
+    <button class="fb" onclick="ft25('nodata',this)">Sin Ingreso</button>
+  </div>
+  <div class="tw"><div class="ts"><table><thead><tr>
+    <th>Fecha</th><th>Evento</th><th>Ingresos</th><th>Gasto Externo</th><th>Gasto Interno</th><th>Gasto Total</th><th>Utilidad</th><th>Margen</th>
+  </tr></thead><tbody id="tb25"></tbody></table></div></div>
+</div>
+</section>
+
+<!-- ============================================================ 2026 ============================================================ -->
+<section class="yview" id="view-2026">
+<div class="hero">
+  <div class="tour">Gira VIVO &middot; Continuación</div>
+  <h1>Alfredo Olivas 2026</h1>
+  <div class="sub">Dashboard en Construcción</div>
+  <div class="ks">
+    <div class="kp"><div class="nm">2</div><div class="lb">Eventos a la fecha</div></div>
+    <div class="kp"><div class="nm">$14M</div><div class="lb">Ingresos</div></div>
+    <div class="kp"><div class="nm" style="color:var(--red)">$1.7M</div><div class="lb">Gasto Total</div></div>
+    <div class="kp"><div class="nm" style="color:var(--grn)">$12.3M</div><div class="lb">Utilidad</div></div>
+    <div class="kp"><div class="nm">87.9%</div><div class="lb">Margen</div></div>
+  </div>
+</div>
+<div class="ct">
+  <div class="note"><strong>Año en curso.</strong> Solo hay 2 eventos cerrados al cierre del archivo (León GTO 9-ene y Arandas 10-ene). Esta vista se irá llenando conforme avancen las fechas y se actualice el Excel de ingresos y egresos. Margen inicial alto (87.9%) porque son eventos pequeños sin gastos externos relevantes.</div>
+
+  <div class="st"><span class="dt"></span>Eventos a la Fecha <span class="stsub">Detalle P<span class="amp">&amp;</span>L</span></div>
+  <div class="tw"><div class="ts"><table><thead><tr>
+    <th>Fecha</th><th>Evento</th><th>Ingresos</th><th>Gasto Externo</th><th>Gasto Interno</th><th>Gasto Total</th><th>Utilidad</th><th>Margen</th>
+  </tr></thead><tbody id="tb26"></tbody></table></div></div>
+</div>
+</section>
+
+<!-- ============================================================ CONSOLIDADO ============================================================ -->
+<section class="yview" id="view-cons">
+<div class="hero">
+  <div class="tour">Resumen Multi-Año &middot; 2023-2026</div>
+  <h1>Consolidado</h1>
+  <div class="sub">Trayectoria de Gira como Negocio</div>
+  <div class="ks">
+    <div class="kp"><div class="nm">199</div><div class="lb">Eventos Totales</div></div>
+    <div class="kp"><div class="nm">4</div><div class="lb">Años Cubiertos</div></div>
+    <div class="kp"><div class="nm" style="font-size:1.3rem">88 / 61 / 48 / 2</div><div class="lb">Por Año</div></div>
+    <div class="kp"><div class="nm">$624M</div><div class="lb">Ingresos VIVO 25-26</div></div>
+    <div class="kp"><div class="nm" style="color:var(--grn)">$422M</div><div class="lb">Utilidad VIVO 25-26</div></div>
+  </div>
+</div>
+<div class="ct">
+  <div class="st"><span class="dt"></span>Evolución de la Gira <span class="stsub">Eventos por año y temporalidad</span></div>
+  <div class="cg">
+    <div class="cc"><h3>Eventos por Año</h3><div class="cs">Volumen anual total</div><div class="cw"><canvas id="cc_1"></canvas></div></div>
+    <div class="cc"><h3>Evolución Mensual 2023-2025</h3><div class="cs">Línea temporal comparada</div><div class="cw"><canvas id="cc_2"></canvas></div></div>
+  </div>
+
+  <div class="note"><strong>Nota sobre comparabilidad:</strong> los datos de 2023 y 2024 son operativos (agenda interna sin P<span class="amp">&amp;</span>L completo), mientras que 2025 y 2026 son financieros (P<span class="amp">&amp;</span>L sin metadata operativa). El consolidado compara solo métricas que son válidas across years: número de eventos, distribución temporal, y agregados financieros donde están disponibles.</div>
+
+  <div class="st"><span class="dt"></span>Composición por Año</div>
+  <div class="cg cg3">
+    <div class="kpc"><div class="l">2023 &middot; Alfa <span class="amp">&amp;</span> Omega</div><div class="v spo">87</div><div class="s">78 públicos + 10 particulares &middot; 25+ estados &middot; Año de transición a MAROLVI</div></div>
+    <div class="kpc"><div class="l">2024 &middot; Intermedio</div><div class="v">61</div><div class="s">45 AO solo + 15 con PDA &middot; 25 estados &middot; 49 ciudades</div></div>
+    <div class="kpc"><div class="l">2025 &middot; Gira VIVO</div><div class="v grn">48</div><div class="s">$610M ingresos &middot; $410M utilidad &middot; 67.1% margen</div></div>
+    <div class="kpc"><div class="l">2026 &middot; En Curso</div><div class="v mar">2</div><div class="s">$14M ingresos parciales &middot; Continuación VIVO</div></div>
+  </div>
+</div>
+</section>
+
+<div class="ft"><p>Dashboard <span>Flexder Corporativo</span> &middot; Datos compilados de agenda interna, P<span class="amp">&amp;</span>L Gira VIVO y evidencias documentales</p></div>
+
 <script>
 Chart.defaults.color='#9b99a1';Chart.defaults.font.family="'DM Sans',sans-serif";Chart.defaults.font.size=11;
 const G='rgba(201,168,76,',SPO='rgba(255,152,0,',MAR='rgba(92,107,192,',TRA='rgba(253,216,53,';
+const GR='rgba(74,222,128,',RD='rgba(248,113,113,',BL='rgba(96,165,250,',PR='rgba(167,139,250,',CY='rgba(34,211,238,',OR='rgba(251,146,60,',PK='rgba(244,114,182,';
 
-// 0. Structure breakdown
-new Chart(document.getElementById('c0'),{type:'doughnut',data:{labels:['TRIUNFADOR (Antigua)','Transición','TRIOMFAR & BARZA','Fuera de estructura'],
-  datasets:[{data:[20,10,30,4],backgroundColor:[SPO+'.6)',TRA+'.5)',MAR+'.6)','rgba(255,255,255,.08)'],borderColor:'#12131a',borderWidth:3}]},
-  options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{padding:12,usePointStyle:true,pointStyle:'circle'}}}}});
+// ========== DATA FOR 2024/2025/2026 ==========
+const D = {"y2024":{"monthly":{"2":6,"3":4,"4":4,"5":9,"6":5,"7":2,"8":4,"9":8,"10":7,"11":5,"12":7},"aopda":{"PDA":15,"AO":45,"Sin asignar":1},"states":{"Sinaloa":2,"Jalisco":9,"Nuevo Leon":3,"Colima":1,"San Luis Potosi":2,"Chihuahua":2,"Guanajuato":7,"Veracruz":2,"Aguascalientes":1,"Puebla":4,"Nuevo León":1,"Edo. Méx.":2,"Durango":2,"Queretaro":2,"Tamaulipas":4,"Coahuila":3,"Tabasco":1,"Campeche":1,"Sin asignar":2,"Baja California":1,"Hidalgo":2,"Zacatecas":1,"Michoacan":2,"Tlaxcala":1,"BCS":2,"Chiapas":1},"boleteras":{"Sin definir":45,"Particular":2,"Soluticket":2,"TicketCity":4,"Gratuito":2,"Boletito":2,"Tuboletoras":1,"No boletera":2,"Bolepass":1},"nego":{"50/50 AO-PDA":12,"Sin definir":40,"Garantía fija":7,"80/20 libre de gastos":1,"Otra":1},"declared":[{"ciudad":"Monterrey","fecha":"2024-02-15","monto":66745038.2,"mes":2},{"ciudad":"Leon","fecha":"2024-05-18","monto":29220285.35,"mes":5},{"ciudad":"Puebla","fecha":"2024-12-14","monto":18363769.31,"mes":12},{"ciudad":"Culiacan","fecha":"2024-05-11","monto":12113502.73,"mes":5},{"ciudad":"Ciudad del Carmen","fecha":"2024-08-03","monto":8500000.0,"mes":8},{"ciudad":"San Francisco del Rincon","fecha":"2024-09-27","monto":8000000.0,"mes":9},{"ciudad":"Tulancingo","fecha":"2024-08-10","monto":7000000.0,"mes":8},{"ciudad":"San Luis Potosi","fecha":"2024-09-01","monto":7000000.0,"mes":9},{"ciudad":"San Juan del Rio","fecha":"2024-12-06","monto":6000000.0,"mes":12},{"ciudad":"Puerto Vallarta","fecha":"2024-05-23","monto":4723592.67,"mes":5},{"ciudad":"Piedras Negras","fecha":"2024-07-12","monto":4000000.0,"mes":7}],"events":[{"n":1,"fecha":"2024-02-08","mes":2,"ciudad":"Mazatlan","estado":"Sinaloa","venue":"Estadio Teodoro Mariscal","aopda":"PDA","empresario":"","boletera":"","nego":"50%-50% AO y PDA","monto":"","produccion":""},{"n":2,"fecha":"2024-02-10","mes":2,"ciudad":"Autlan","estado":"Jal","venue":"Plaza de toros","aopda":"PDA","empresario":"","boletera":"","nego":"50%-50% AO y PDA","monto":"","produccion":""},{"n":3,"fecha":"2024-02-15","mes":2,"ciudad":"Monterrey","estado":"Nuevo Leon","venue":"Estadio Banorte","aopda":"PDA","empresario":"","boletera":"","nego":"50%-50% AO y PDA","monto":"$66,745,038.20","produccion":""},{"n":4,"fecha":"2024-02-16","mes":2,"ciudad":"Monterrey","estado":"Nuevo Leon","venue":"Estadio Banorte","aopda":"PDA","empresario":"","boletera":"","nego":"50%-50% AO y PDA","monto":"","produccion":""},{"n":5,"fecha":"2024-02-17","mes":2,"ciudad":"Monterrey","estado":"Nuevo Leon","venue":"Estadio Banorte","aopda":"PDA","empresario":"","boletera":"","nego":"50%-50% AO y PDA","monto":"","produccion":""},{"n":6,"fecha":"2024-02-23","mes":2,"ciudad":"Villa de Alvarez","estado":"Colima","venue":"Plaza de toros","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":7,"fecha":"2024-03-02","mes":3,"ciudad":"San Luis Potosi","estado":"San Luis Potosi","venue":"Estadio Plan de San Luis","aopda":"PDA","empresario":"","boletera":"","nego":"50%-50% AO y PDA","monto":"","produccion":""},{"n":8,"fecha":"2024-03-16","mes":3,"ciudad":"Chihuahua","estado":"Chihuahua","venue":"Estadio Universitario UACH","aopda":"PDA","empresario":"","boletera":"","nego":"50%-50% AO y PDA","monto":"Ingreso a AO $463,791.82","produccion":""},{"n":9,"fecha":"2024-03-20","mes":3,"ciudad":"Irapuato","estado":"Guanajuato","venue":"Teatro del Pueblo","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":10,"fecha":"2024-03-22","mes":3,"ciudad":"Irapuato","estado":"Guanajuato","venue":"","aopda":"PDA","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":11,"fecha":"2024-04-06","mes":4,"ciudad":"Boca del Rio","estado":"Veracruz","venue":"Estadio de Beisbol","aopda":"PDA","empresario":"","boletera":"","nego":"","monto":"TRANSFERIDO A TRIOMFAR $6,807,917.66 (DIVIDIDO EN 2) Y ENTRO DE BARRA $1,610,021.50. Total de AO $15,342,281.31","produccion":""},{"n":12,"fecha":"2024-04-14","mes":4,"ciudad":"Aguascalientes","estado":"Aguascalientes","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":13,"fecha":"2024-04-25","mes":4,"ciudad":"Puebla","estado":"Puebla","venue":"Feria del Pueblo","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":14,"fecha":"2024-04-28","mes":4,"ciudad":"Puebla","estado":"Puebla","venue":"Feria del Pueblo","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":15,"fecha":"2024-05-01","mes":5,"ciudad":"Monterrey","estado":"NL","venue":"","aopda":"AO","empresario":"","boletera":"Particular","nego":"","monto":"","produccion":""},{"n":16,"fecha":"2024-05-04","mes":5,"ciudad":"Tepatitlan","estado":"Jalisco","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":17,"fecha":"2024-05-05","mes":5,"ciudad":"Metepec","estado":"Edomex","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":18,"fecha":"2024-05-06","mes":5,"ciudad":"Metepec","estado":"Edomex","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":19,"fecha":"2024-05-08","mes":5,"ciudad":"Penjamo","estado":"Guanajuato","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":20,"fecha":"2024-05-11","mes":5,"ciudad":"Culiacan","estado":"Sinaloa","venue":"Estadio Dorados","aopda":"PDA","empresario":"","boletera":"","nego":"Taquilla 100% solo sacar $2,079,814 para socio. 50% y 50% con JA","monto":"$12,113,502.73","produccion":""},{"n":21,"fecha":"2024-05-12","mes":5,"ciudad":"Tarimoro","estado":"Guanajuato","venue":"Feria","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":22,"fecha":"2024-05-18","mes":5,"ciudad":"Leon","estado":"Guanajuato","venue":"Recinto","aopda":"PDA","empresario":"","boletera":"","nego":"50%-50% JA y AO","monto":"$29,220,285.35","produccion":""},{"n":23,"fecha":"2024-05-23","mes":5,"ciudad":"Puerto Vallarta","estado":"Jalisco","venue":"Explanada Vallarta","aopda":"PDA","empresario":"","boletera":"","nego":"50%-50% JA y AO","monto":"$4,723,592.67","produccion":""},{"n":24,"fecha":"2024-06-13","mes":6,"ciudad":"Gomez Palacio","estado":"Durango","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":25,"fecha":"2024-06-14","mes":6,"ciudad":"Gomez Palacio","estado":"Durango","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":26,"fecha":"2024-06-16","mes":6,"ciudad":"San Juan del Rio","estado":"Queretaro","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":27,"fecha":"2024-06-28","mes":6,"ciudad":"Ciudad Victoria","estado":"Tamaulipas","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"Ingreso total $11,103,190 ( $10,167,650.80 en taquilla y $935,539.20 en barra, efectivo)","produccion":""},{"n":28,"fecha":"2024-06-29","mes":6,"ciudad":"Ciudad Victoria","estado":"Tamaulipas","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":29,"fecha":"2024-07-12","mes":7,"ciudad":"Piedras Negras","estado":"Coahuila","venue":"Estadio 123","aopda":"AO","empresario":"","boletera":"SOLUTICKET","nego":"$5,000,000.00","monto":"$4,000,000.00","produccion":"Nosotros llevamos produccion"},{"n":30,"fecha":"2024-07-13","mes":7,"ciudad":"San buenaventura","estado":"Coahuila","venue":"Plaza de toros","aopda":"AO","empresario":"","boletera":"SOLUTICKET","nego":"","monto":"","produccion":"Nosotros llevamos produccion"},{"n":31,"fecha":"2024-08-02","mes":8,"ciudad":"Villahermosa","estado":"Tabasco","venue":"Palenque","aopda":"","empresario":"","boletera":"Ticketcity","nego":"","monto":"","produccion":""},{"n":32,"fecha":"2024-08-03","mes":8,"ciudad":"Ciudad del Carmen","estado":"Campeche","venue":"Concha Acustica","aopda":"AO","empresario":"","boletera":"Concierto Gratuito","nego":"$8,500,000.00","monto":"Abonos en transferencia $150,000, $200,000, $110,000, $190,000, $249,159.82, $242,399.77, $221,141.16, $252,088.46, $289,512.64, $258,885.85, $234,110.22, 241,160.44, $244,080.42, $246,407.27, $245,767.78, $201,602.27,$249,686.10, $286,606.19,$220,719.18,$213,485.51,$100,665.33 y $252,521.59 y en efectivo fueron $1,600,000 y despues $2,000,000","produccion":"Ellos ponen produccion"},{"n":33,"fecha":"2024-08-09","mes":8,"ciudad":"Durango","estado":"","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"80%-20% taquilla libre de gastos","monto":"Se entrego $2,000,000, $2,000,000, $750,000, $1,000,000, $1,280,00. Suma $7,030,000","produccion":"Precio de produccion $2,000,000 mas iva"},{"n":34,"fecha":"2024-08-10","mes":8,"ciudad":"Tulancingo","estado":"","venue":"Palenque","aopda":"AO","empresario":"","boletera":"Boletito","nego":"$7,000,000.00","monto":"","produccion":""},{"n":35,"fecha":"2024-09-01","mes":9,"ciudad":"San Luis Potosi","estado":"San Luis Potosi","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"$7,000,000.00","monto":"","produccion":"Ellos ponen produccion"},{"n":36,"fecha":"2024-09-05","mes":9,"ciudad":"Tijuana","estado":"Tijuana","venue":"Palenque","aopda":"AO","empresario":"","boletera":"Tuboletoras.mx","nego":"","monto":"","produccion":""},{"n":37,"fecha":"2024-09-13","mes":9,"ciudad":"Yahualica","estado":"Jalisco","venue":"Expoferia","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":38,"fecha":"2024-09-14","mes":9,"ciudad":"Arandas","estado":"Jalisco","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"Ingresaron $3,000,000 de anticipo boletera","produccion":""},{"n":39,"fecha":"2024-09-15","mes":9,"ciudad":"Chihuahua","estado":"Chihuahua","venue":"Plaza del Angel","aopda":"AO","empresario":"","boletera":"","nego":"$25,000,000 + IVA","monto":"Abono $8,700,000 y $10,150,000","produccion":""},{"n":40,"fecha":"2024-09-20","mes":9,"ciudad":"Dolores","estado":"Hidalgo","venue":"Estadio Ernesto Aguirre","aopda":"AO","empresario":"","boletera":"no boletera","nego":"$10,000,000 mas produccion","monto":"","produccion":""},{"n":41,"fecha":"2024-09-22","mes":9,"ciudad":"Zacatecas","estado":"Zacatecas","venue":"Palenque","aopda":"PDA","empresario":"","boletera":"","nego":"50%-50% JA y AO","monto":"","produccion":"Ellos pondran produccion"},{"n":42,"fecha":"2024-09-27","mes":9,"ciudad":"San Francisco del Rincon","estado":"Guanajuato","venue":"Feria","aopda":"AO","empresario":"","boletera":"no boletera","nego":"$8,000,000.00","monto":"","produccion":""},{"n":43,"fecha":"2024-10-11","mes":10,"ciudad":"Xalapa","estado":"Veracruz","venue":"Velodromo","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":44,"fecha":"2024-10-12","mes":10,"ciudad":"Tehuacan","estado":"Puebla","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":45,"fecha":"2024-10-20","mes":10,"ciudad":"Pachuca","estado":"Hidalgo","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":46,"fecha":"2024-10-25","mes":10,"ciudad":"Guajadalajara","estado":"Jalisco","venue":"Palenque","aopda":"AO","empresario":"","boletera":"Bolepass","nego":"","monto":"","produccion":""},{"n":47,"fecha":"2024-10-27","mes":10,"ciudad":"Villa Hidalgo","estado":"Michoacan","venue":"Palenque","aopda":"AO","empresario":"","boletera":"Particular","nego":"","monto":"","produccion":""},{"n":48,"fecha":"2024-10-28","mes":10,"ciudad":"Las Jaras","estado":"Jalisco","venue":"","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":49,"fecha":"2024-10-29","mes":10,"ciudad":"Guadalajara","estado":"Jalisco","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":50,"fecha":"2024-11-01","mes":11,"ciudad":"Tlaxcala","estado":"Tlaxcala","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":51,"fecha":"2024-11-08","mes":11,"ciudad":"Los Cabos","estado":"BCS","venue":"Explanada Madcons","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":52,"fecha":"2024-11-09","mes":11,"ciudad":"La paz","estado":"BCS","venue":"Estadio Villa deportiva","aopda":"AO","empresario":"","boletera":"","nego":"Nosotros barra","monto":"","produccion":""},{"n":53,"fecha":"2024-11-15","mes":11,"ciudad":"Tampico","estado":"Tamaulipas","venue":"Expo","aopda":"AO","empresario":"","boletera":"ticketcity","nego":"","monto":"","produccion":""},{"n":54,"fecha":"2024-11-16","mes":11,"ciudad":"Reynosa","estado":"Tamaulipas","venue":"Unidad deportiva","aopda":"AO","empresario":"","boletera":"Ticketcity","nego":"","monto":"","produccion":""},{"n":55,"fecha":"2024-12-06","mes":12,"ciudad":"San Juan del Rio","estado":"Queretaro","venue":"Palenque","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"$6,000,000.00","produccion":""},{"n":56,"fecha":"2024-12-07","mes":12,"ciudad":"Torreon","estado":"Coahuila","venue":"Estadio Revolucion","aopda":"PDA","empresario":"","boletera":"Boletito","nego":"","monto":"","produccion":""},{"n":57,"fecha":"2024-12-12","mes":12,"ciudad":"La Barca","estado":"Jalisco","venue":"Nucleo de feria","aopda":"AO","empresario":"","boletera":"Evento Gratuito","nego":"","monto":"","produccion":""},{"n":58,"fecha":"2024-12-13","mes":12,"ciudad":"Tuxtla","estado":"Chiapas","venue":"Foro Chiapas","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":59,"fecha":"2024-12-14","mes":12,"ciudad":"Puebla","estado":"Puebla","venue":"Estadio Puebla","aopda":"PDA","empresario":"","boletera":"Ticketcity","nego":"50%-50% AO JA","monto":"$18,363,769.31","produccion":""},{"n":60,"fecha":"2024-12-27","mes":12,"ciudad":"Uriangato","estado":"Guanajuato","venue":"Explanada de la feria","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""},{"n":61,"fecha":"2024-12-28","mes":12,"ciudad":"Huetamo","estado":"Michoacan","venue":"Feria","aopda":"AO","empresario":"","boletera":"","nego":"","monto":"","produccion":""}],"total":61,"cities":49,"state_count":25},"y2025":{"events":[{"fecha":"2025-01-19","mes":1,"evento":"RINCON DE ROMOS","ingresos":10000000.0,"gastos_ext":0,"gastos_int":506352.93,"gasto_total":506352.93,"pct_util":94.9364707,"utilidad":9493647.07},{"fecha":"31 ENERO Y 1 FEBRERO","mes":1,"evento":"LEON GUANAJUATO","ingresos":17000000.0,"gastos_ext":0,"gastos_int":1425753.84,"gasto_total":1425753.84,"pct_util":91.61321270588235,"utilidad":15574246.16},{"fecha":"2025-02-15","mes":2,"evento":"ZITACUARO MICHOACAN","ingresos":6537240.0,"gastos_ext":0,"gastos_int":906921.24,"gasto_total":906921.24,"pct_util":86.12684802760798,"utilidad":5630318.76},{"fecha":"26-27-28 FEBRERO","mes":2,"evento":"ARENA CDMX","ingresos":69587900.0,"gastos_ext":0,"gastos_int":29600300.34,"gasto_total":29600300.34,"pct_util":57.4634378390496,"utilidad":39987599.66},{"fecha":"2025-03-01","mes":3,"evento":"IGUALA","ingresos":8150000.0,"gastos_ext":0,"gastos_int":629903.54,"gasto_total":629903.54,"pct_util":92.27112220858896,"utilidad":7520096.46},{"fecha":"2025-03-03","mes":3,"evento":"AUTLAN","ingresos":0.0,"gastos_ext":0,"gastos_int":498677.0,"gasto_total":498677.0,"pct_util":0,"utilidad":0.0},{"fecha":"2025-03-04","mes":3,"evento":"AMECA JAL","ingresos":0.0,"gastos_ext":0,"gastos_int":2359872.03,"gasto_total":2359872.03,"pct_util":0,"utilidad":0.0},{"fecha":"2025-03-15","mes":3,"evento":"CIUDAD JUAREZ","ingresos":18459828.9,"gastos_ext":0,"gastos_int":5463078.16,"gasto_total":5463078.16,"pct_util":70.40558615361813,"utilidad":12996750.739999998},{"fecha":"2025-03-28","mes":3,"evento":"IRAPUATO","ingresos":6565680.0,"gastos_ext":0,"gastos_int":1818941.64,"gasto_total":1818941.64,"pct_util":72.29621851811237,"utilidad":4746738.36},{"fecha":"2025-04-04","mes":4,"evento":"GUADALAJARA","ingresos":28876170.71,"gastos_ext":11875864.24,"gastos_int":8383966.3,"gasto_total":20259830.54,"pct_util":29.838929325265795,"utilidad":8616340.170000002},{"fecha":"2025-04-19","mes":4,"evento":"CUERNAVACA","ingresos":8596730.0,"gastos_ext":0,"gastos_int":1117431.55,"gasto_total":1117431.55,"pct_util":87.00166749450082,"utilidad":7479298.45},{"fecha":"9-10 BRIL","mes":4,"evento":"TEPIC","ingresos":11050022.5,"gastos_ext":0,"gastos_int":1769356.6,"gasto_total":1769356.6,"pct_util":83.98775568104047,"utilidad":9280665.9},{"fecha":"2025-04-26","mes":4,"evento":"MONTERREY","ingresos":29977009.59,"gastos_ext":12322667.87,"gastos_int":4305165.86,"gasto_total":16627833.73,"pct_util":44.531379355641725,"utilidad":13349175.86},{"fecha":"2025-05-01","mes":5,"evento":"TEPATITLAN","ingresos":7900000.0,"gastos_ext":0,"gastos_int":948433.03,"gasto_total":948433.03,"pct_util":87.99451860759494,"utilidad":6951566.97},{"fecha":"2025-05-03","mes":5,"evento":"MOCHIS","ingresos":17106232.5,"gastos_ext":5356869.615,"gastos_int":8160710.1,"gasto_total":13517579.715,"pct_util":20.978627438858908,"utilidad":3588652.785},{"fecha":"2025-05-05","mes":5,"evento":"AGUASCALIENTES","ingresos":7000000.0,"gastos_ext":0,"gastos_int":899741.21,"gasto_total":899741.21,"pct_util":87.14655414285714,"utilidad":6100258.79},{"fecha":"2025-05-17","mes":5,"evento":"SAN JUAN DE LOS LAGOS","ingresos":6250000.0,"gastos_ext":0,"gastos_int":1026898.22,"gasto_total":1026898.22,"pct_util":83.56962848,"utilidad":5223101.78},{"fecha":"2025-05-24","mes":5,"evento":"OAXACA","ingresos":16243974.0,"gastos_ext":2973865.5,"gastos_int":2305741.2,"gasto_total":5279606.7,"pct_util":67.49805989593433,"utilidad":10964367.3},{"fecha":"2025-06-07","mes":6,"evento":"PACHUQUILLA","ingresos":10117340.1,"gastos_ext":3322734.867,"gastos_int":5580480.37,"gasto_total":8903215.237,"pct_util":12.000435401000306,"utilidad":1214124.863},{"fecha":"2025-06-14","mes":6,"evento":"CHIHUAHUA","ingresos":14333358.6,"gastos_ext":4064870.1600000006,"gastos_int":5960088.15,"gasto_total":10024958.31,"pct_util":30.058553687479773,"utilidad":4308400.289999999},{"fecha":"2025-07-03","mes":7,"evento":"MONTERREY","ingresos":10000000.0,"gastos_ext":0,"gastos_int":1217038.83,"gasto_total":1217038.83,"pct_util":87.8296117,"utilidad":8782961.17},{"fecha":"2025-07-05","mes":7,"evento":"GOMEZ PALACIO","ingresos":8500000.0,"gastos_ext":0,"gastos_int":1309171.2,"gasto_total":1309171.2,"pct_util":84.59798588235294,"utilidad":7190828.8},{"fecha":"2025-07-06","mes":7,"evento":"SAN BUENAVENTURA","ingresos":7000000.0,"gastos_ext":0,"gastos_int":1086595.71,"gasto_total":1086595.71,"pct_util":84.47720414285715,"utilidad":5913404.29},{"fecha":"2025-08-02","mes":8,"evento":"TULANCINGO","ingresos":8300000.0,"gastos_ext":0,"gastos_int":1220475.1,"gasto_total":1220475.1,"pct_util":85.29548072289157,"utilidad":7079524.9},{"fecha":"2025-08-03","mes":8,"evento":"DURANGO","ingresos":7700000.0,"gastos_ext":0,"gastos_int":899231.09,"gasto_total":899231.09,"pct_util":88.32167415584415,"utilidad":6800768.91},{"fecha":"2025-08-08","mes":8,"evento":"PARRAS COAHUILA","ingresos":6365091.6,"gastos_ext":652890.6,"gastos_int":2329133.32,"gasto_total":2982023.92,"pct_util":53.15033769506161,"utilidad":3383067.6799999997},{"fecha":"2025-08-09","mes":8,"evento":"LAGOS DE MORENO","ingresos":9000000.0,"gastos_ext":0,"gastos_int":908622.39,"gasto_total":908622.39,"pct_util":89.90419566666667,"utilidad":8091377.61},{"fecha":"2025-08-27","mes":8,"evento":"SAN LUIS POTOSI","ingresos":8500000.0,"gastos_ext":0,"gastos_int":987409.83,"gasto_total":987409.83,"pct_util":88.38341376470588,"utilidad":7512590.17},{"fecha":"2025-09-13","mes":9,"evento":"IXTLAN DEL RIO","ingresos":4500000.0,"gastos_ext":0,"gastos_int":898354.55,"gasto_total":898354.55,"pct_util":80.03656555555555,"utilidad":3601645.45},{"fecha":"2025-09-14","mes":9,"evento":"ZACATECAS","ingresos":6208568.0,"gastos_ext":0,"gastos_int":786608.32,"gasto_total":786608.32,"pct_util":87.33027777097713,"utilidad":5421959.68},{"fecha":"2025-09-19","mes":9,"evento":"TIJUANA","ingresos":7764400.0,"gastos_ext":0,"gastos_int":1113086.7,"gasto_total":1113086.7,"pct_util":85.66422775745711,"utilidad":6651313.3},{"fecha":"2025-09-20","mes":9,"evento":"TORREON","ingresos":8781300.0,"gastos_ext":2692978.2,"gastos_int":670791.09,"gasto_total":3363769.29,"pct_util":61.69394861808616,"utilidad":5417530.71},{"fecha":"2025-09-27","mes":9,"evento":"SALTILLO","ingresos":10632845.7,"gastos_ext":4122262.8,"gastos_int":4126582.35,"gasto_total":8248845.15,"pct_util":22.421096075907496,"utilidad":2384000.549999999},{"fecha":"2025-09-28","mes":9,"evento":"TLAJOMULCO","ingresos":8195881.600000001,"gastos_ext":1645804.0,"gastos_int":1078437.96,"gasto_total":2724241.96,"pct_util":66.76084290919967,"utilidad":5471639.640000001},{"fecha":"2025-10-03","mes":10,"evento":"GUADALAJARA","ingresos":7000000.0,"gastos_ext":0,"gastos_int":764600.64,"gasto_total":764600.64,"pct_util":89.07713371428571,"utilidad":6235399.36},{"fecha":"2025-10-07","mes":10,"evento":"GUADALAJARA","ingresos":7000000.0,"gastos_ext":0,"gastos_int":789920.42,"gasto_total":789920.42,"pct_util":88.71542257142858,"utilidad":6210079.58},{"fecha":"2025-10-10","mes":10,"evento":"CHIMALHUACAN","ingresos":12500000.0,"gastos_ext":0,"gastos_int":1243328.83,"gasto_total":1243328.83,"pct_util":90.05336936,"utilidad":11256671.17},{"fecha":"2025-10-17","mes":10,"evento":"CD VICTORIA","ingresos":8500000.0,"gastos_ext":0,"gastos_int":867876.13,"gasto_total":867876.13,"pct_util":89.7896925882353,"utilidad":7632123.87},{"fecha":"2025-10-19","mes":10,"evento":"PACHUCA","ingresos":7000000.0,"gastos_ext":0,"gastos_int":943773.09,"gasto_total":943773.09,"pct_util":86.51752728571428,"utilidad":6056226.91},{"fecha":"2025-11-07","mes":11,"evento":"COLIMA","ingresos":7922611.04,"gastos_ext":1286024.0,"gastos_int":1151297.97,"gasto_total":2437321.9699999997,"pct_util":69.23587491933719,"utilidad":5485289.07},{"fecha":"2025-11-14","mes":11,"evento":"TLAXCALA","ingresos":7000000.0,"gastos_ext":0,"gastos_int":1037680.87,"gasto_total":1037680.87,"pct_util":85.17598757142858,"utilidad":5962319.13},{"fecha":"2025-11-15","mes":11,"evento":"ACAPULCO","ingresos":17000000.0,"gastos_ext":0,"gastos_int":2545223.05,"gasto_total":2545223.05,"pct_util":85.02809970588235,"utilidad":14454776.95},{"fecha":"2025-12-05","mes":12,"evento":"TUXLTA","ingresos":7000000.0,"gastos_ext":0,"gastos_int":1044694.7,"gasto_total":1044694.7,"pct_util":85.07579,"utilidad":5955305.3},{"fecha":"2025-12-06","mes":12,"evento":"TAPACHULA","ingresos":7551314.1,"gastos_ext":0,"gastos_int":1739383.14,"gasto_total":1739383.14,"pct_util":76.96582188257803,"utilidad":5811930.96},{"fecha":"2025-12-12","mes":12,"evento":"CANCUN","ingresos":6169534.2,"gastos_ext":0,"gastos_int":2117372.07,"gasto_total":2117372.07,"pct_util":65.68019559726244,"utilidad":4052162.1300000004},{"fecha":"2025-12-13","mes":12,"evento":"MERIDA","ingresos":9126042.0,"gastos_ext":0,"gastos_int":4740377.58,"gasto_total":4740377.58,"pct_util":48.05658816823328,"utilidad":4385664.42},{"fecha":"2025-12-14","mes":12,"evento":"RIO BRAVO","ingresos":7000000.0,"gastos_ext":0,"gastos_int":980591.33,"gasto_total":980591.33,"pct_util":85.99155242857142,"utilidad":6019408.67},{"fecha":"2025-12-20","mes":12,"evento":"CDMX","ingresos":94377789.0,"gastos_ext":26313852.123,"gastos_int":4597550.23,"gasto_total":30911402.353,"pct_util":67.24716410446953,"utilidad":63466386.647}],"totals":{"ingresos":610346864.14,"gastos_ext":76630683.975,"gastos_int":126863021.8,"gasto_total":203493705.775,"utilidad":409711707.395,"margen":67.12768287460574},"monthly_ing":[27000000.0,76125140.0,33175508.9,78499932.8,54500206.5,24450698.7,25500000.0,39865091.6,46082995.300000004,42000000.0,31922611.04,131224679.3],"monthly_gas":[1932106.77,30507221.58,10770472.370000001,39774452.42,21672258.875,18928173.547,3612805.74,6997762.329999999,17134905.970000003,4609499.11,6020225.89,41533821.173],"monthly_uti":[25067893.23,45617918.419999994,25263585.56,38725480.38,32827947.625,5522525.152999999,21887194.259999998,32867329.270000003,28948089.33,37390500.89,25902385.15,89690858.127],"monthly_cnt":[2,2,5,4,5,2,3,5,6,5,3,6],"top_util":[{"fecha":"2025-12-20","mes":12,"evento":"CDMX","ingresos":94377789.0,"gastos_ext":26313852.123,"gastos_int":4597550.23,"gasto_total":30911402.353,"pct_util":67.24716410446953,"utilidad":63466386.647},{"fecha":"26-27-28 FEBRERO","mes":2,"evento":"ARENA CDMX","ingresos":69587900.0,"gastos_ext":0,"gastos_int":29600300.34,"gasto_total":29600300.34,"pct_util":57.4634378390496,"utilidad":39987599.66},{"fecha":"31 ENERO Y 1 FEBRERO","mes":1,"evento":"LEON GUANAJUATO","ingresos":17000000.0,"gastos_ext":0,"gastos_int":1425753.84,"gasto_total":1425753.84,"pct_util":91.61321270588235,"utilidad":15574246.16},{"fecha":"2025-11-15","mes":11,"evento":"ACAPULCO","ingresos":17000000.0,"gastos_ext":0,"gastos_int":2545223.05,"gasto_total":2545223.05,"pct_util":85.02809970588235,"utilidad":14454776.95},{"fecha":"2025-04-26","mes":4,"evento":"MONTERREY","ingresos":29977009.59,"gastos_ext":12322667.87,"gastos_int":4305165.86,"gasto_total":16627833.73,"pct_util":44.531379355641725,"utilidad":13349175.86},{"fecha":"2025-03-15","mes":3,"evento":"CIUDAD JUAREZ","ingresos":18459828.9,"gastos_ext":0,"gastos_int":5463078.16,"gasto_total":5463078.16,"pct_util":70.40558615361813,"utilidad":12996750.739999998},{"fecha":"2025-10-10","mes":10,"evento":"CHIMALHUACAN","ingresos":12500000.0,"gastos_ext":0,"gastos_int":1243328.83,"gasto_total":1243328.83,"pct_util":90.05336936,"utilidad":11256671.17},{"fecha":"2025-05-24","mes":5,"evento":"OAXACA","ingresos":16243974.0,"gastos_ext":2973865.5,"gastos_int":2305741.2,"gasto_total":5279606.7,"pct_util":67.49805989593433,"utilidad":10964367.3},{"fecha":"2025-01-19","mes":1,"evento":"RINCON DE ROMOS","ingresos":10000000.0,"gastos_ext":0,"gastos_int":506352.93,"gasto_total":506352.93,"pct_util":94.9364707,"utilidad":9493647.07},{"fecha":"9-10 BRIL","mes":4,"evento":"TEPIC","ingresos":11050022.5,"gastos_ext":0,"gastos_int":1769356.6,"gasto_total":1769356.6,"pct_util":83.98775568104047,"utilidad":9280665.9}],"top_ing":[{"fecha":"2025-12-20","mes":12,"evento":"CDMX","ingresos":94377789.0,"gastos_ext":26313852.123,"gastos_int":4597550.23,"gasto_total":30911402.353,"pct_util":67.24716410446953,"utilidad":63466386.647},{"fecha":"26-27-28 FEBRERO","mes":2,"evento":"ARENA CDMX","ingresos":69587900.0,"gastos_ext":0,"gastos_int":29600300.34,"gasto_total":29600300.34,"pct_util":57.4634378390496,"utilidad":39987599.66},{"fecha":"2025-04-26","mes":4,"evento":"MONTERREY","ingresos":29977009.59,"gastos_ext":12322667.87,"gastos_int":4305165.86,"gasto_total":16627833.73,"pct_util":44.531379355641725,"utilidad":13349175.86},{"fecha":"2025-04-04","mes":4,"evento":"GUADALAJARA","ingresos":28876170.71,"gastos_ext":11875864.24,"gastos_int":8383966.3,"gasto_total":20259830.54,"pct_util":29.838929325265795,"utilidad":8616340.170000002},{"fecha":"2025-03-15","mes":3,"evento":"CIUDAD JUAREZ","ingresos":18459828.9,"gastos_ext":0,"gastos_int":5463078.16,"gasto_total":5463078.16,"pct_util":70.40558615361813,"utilidad":12996750.739999998},{"fecha":"2025-05-03","mes":5,"evento":"MOCHIS","ingresos":17106232.5,"gastos_ext":5356869.615,"gastos_int":8160710.1,"gasto_total":13517579.715,"pct_util":20.978627438858908,"utilidad":3588652.785},{"fecha":"31 ENERO Y 1 FEBRERO","mes":1,"evento":"LEON GUANAJUATO","ingresos":17000000.0,"gastos_ext":0,"gastos_int":1425753.84,"gasto_total":1425753.84,"pct_util":91.61321270588235,"utilidad":15574246.16},{"fecha":"2025-11-15","mes":11,"evento":"ACAPULCO","ingresos":17000000.0,"gastos_ext":0,"gastos_int":2545223.05,"gasto_total":2545223.05,"pct_util":85.02809970588235,"utilidad":14454776.95},{"fecha":"2025-05-24","mes":5,"evento":"OAXACA","ingresos":16243974.0,"gastos_ext":2973865.5,"gastos_int":2305741.2,"gasto_total":5279606.7,"pct_util":67.49805989593433,"utilidad":10964367.3},{"fecha":"2025-06-14","mes":6,"evento":"CHIHUAHUA","ingresos":14333358.6,"gastos_ext":4064870.1600000006,"gastos_int":5960088.15,"gasto_total":10024958.31,"pct_util":30.058553687479773,"utilidad":4308400.289999999}],"low_margin":[{"fecha":"2025-06-07","mes":6,"evento":"PACHUQUILLA","ingresos":10117340.1,"gastos_ext":3322734.867,"gastos_int":5580480.37,"gasto_total":8903215.237,"pct_util":12.000435401000306,"utilidad":1214124.863},{"fecha":"2025-05-03","mes":5,"evento":"MOCHIS","ingresos":17106232.5,"gastos_ext":5356869.615,"gastos_int":8160710.1,"gasto_total":13517579.715,"pct_util":20.978627438858908,"utilidad":3588652.785},{"fecha":"2025-09-27","mes":9,"evento":"SALTILLO","ingresos":10632845.7,"gastos_ext":4122262.8,"gastos_int":4126582.35,"gasto_total":8248845.15,"pct_util":22.421096075907496,"utilidad":2384000.549999999},{"fecha":"2025-04-04","mes":4,"evento":"GUADALAJARA","ingresos":28876170.71,"gastos_ext":11875864.24,"gastos_int":8383966.3,"gasto_total":20259830.54,"pct_util":29.838929325265795,"utilidad":8616340.170000002},{"fecha":"2025-06-14","mes":6,"evento":"CHIHUAHUA","ingresos":14333358.6,"gastos_ext":4064870.1600000006,"gastos_int":5960088.15,"gasto_total":10024958.31,"pct_util":30.058553687479773,"utilidad":4308400.289999999},{"fecha":"2025-04-26","mes":4,"evento":"MONTERREY","ingresos":29977009.59,"gastos_ext":12322667.87,"gastos_int":4305165.86,"gasto_total":16627833.73,"pct_util":44.531379355641725,"utilidad":13349175.86},{"fecha":"2025-12-13","mes":12,"evento":"MERIDA","ingresos":9126042.0,"gastos_ext":0,"gastos_int":4740377.58,"gasto_total":4740377.58,"pct_util":48.05658816823328,"utilidad":4385664.42}],"high_margin":[{"fecha":"2025-01-19","mes":1,"evento":"RINCON DE ROMOS","ingresos":10000000.0,"gastos_ext":0,"gastos_int":506352.93,"gasto_total":506352.93,"pct_util":94.9364707,"utilidad":9493647.07},{"fecha":"2025-03-01","mes":3,"evento":"IGUALA","ingresos":8150000.0,"gastos_ext":0,"gastos_int":629903.54,"gasto_total":629903.54,"pct_util":92.27112220858896,"utilidad":7520096.46},{"fecha":"31 ENERO Y 1 FEBRERO","mes":1,"evento":"LEON GUANAJUATO","ingresos":17000000.0,"gastos_ext":0,"gastos_int":1425753.84,"gasto_total":1425753.84,"pct_util":91.61321270588235,"utilidad":15574246.16},{"fecha":"2025-10-10","mes":10,"evento":"CHIMALHUACAN","ingresos":12500000.0,"gastos_ext":0,"gastos_int":1243328.83,"gasto_total":1243328.83,"pct_util":90.05336936,"utilidad":11256671.17},{"fecha":"2025-08-09","mes":8,"evento":"LAGOS DE MORENO","ingresos":9000000.0,"gastos_ext":0,"gastos_int":908622.39,"gasto_total":908622.39,"pct_util":89.90419566666667,"utilidad":8091377.61}],"ext_vs_int":{"ext":76630683.975,"int":126863021.8},"no_data":[{"fecha":"2025-03-03","mes":3,"evento":"AUTLAN","ingresos":0.0,"gastos_ext":0,"gastos_int":498677.0,"gasto_total":498677.0,"pct_util":0,"utilidad":0.0},{"fecha":"2025-03-04","mes":3,"evento":"AMECA JAL","ingresos":0.0,"gastos_ext":0,"gastos_int":2359872.03,"gasto_total":2359872.03,"pct_util":0,"utilidad":0.0}]},"y2026":{"events":[{"fecha":"2026-01-09","mes":1,"evento":"LEON GUANAJUATO","ingresos":7000000.0,"gastos_ext":0,"gastos_int":859534.58,"gasto_total":859534.58,"pct_util":87.72093457142857,"utilidad":6140465.42},{"fecha":"2026-01-10","mes":1,"evento":"ARANDAS","ingresos":7000000.0,"gastos_ext":0,"gastos_int":832733.86,"gasto_total":832733.86,"pct_util":88.103802,"utilidad":6167266.14}],"totals":{"ingresos":14000000.0,"gastos_ext":0,"gastos_int":1692268.44,"gasto_total":1692268.44,"utilidad":12307731.559999999,"margen":87.91236828571427}}};
 
-// 1. Monthly by structure
-new Chart(document.getElementById('c1'),{type:'bar',data:{labels:['Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],datasets:[
-  {label:'TRIUNFADOR',data:[3,3,5,8,4,1,0,0,0,0,0],backgroundColor:SPO+'.6)',borderRadius:3,barPercentage:.75},
-  {label:'Transición',data:[0,0,0,1,1,9,0,0,0,0,0],backgroundColor:TRA+'.5)',borderRadius:3,barPercentage:.75},
-  {label:'TRIOMFAR & BARZA',data:[0,0,0,0,0,4,4,8,7,5,6],backgroundColor:MAR+'.6)',borderRadius:3,barPercentage:.75}
-]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{usePointStyle:true,pointStyle:'circle',padding:10,font:{size:10}}}},scales:{y:{beginAtZero:true,stacked:true,grid:{color:'rgba(255,255,255,.04)'}},x:{stacked:true,grid:{display:false}}}}});
-
-// 2. Top empresarios
-new Chart(document.getElementById('c2'),{type:'bar',data:{labels:['Rogelio "El Calá"','Gerardo Raya','Julio César','Germán/Israel López','Álvaro Rogel','Edgar Rodríguez','J.L. Ledezma','Víctor Cabrera','Chaguín','Lupita Cervantes'],
-  datasets:[{data:[6,5,4,3,3,2,3,2,2,2],backgroundColor:G+'.4)',borderColor:G+'.7)',borderWidth:1,borderRadius:3,barPercentage:.6}]},
-  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false}}}}});
-
-// 3. Negotiation (sin Vendida por AO)
-new Chart(document.getElementById('c3'),{type:'doughnut',data:{labels:['90/10 taquilla + barra','80/20 libre de gastos','85/15 libre de gastos','75/25 taquilla','Garantía fija','100% taquilla','Fecha pagada (monto fijo)'],
-  datasets:[{data:[32,8,3,2,3,1,3],backgroundColor:[G+'.7)','rgba(96,165,250,.5)','rgba(167,139,250,.5)','rgba(74,222,128,.5)','rgba(251,146,60,.5)','rgba(244,114,182,.4)','rgba(34,211,238,.4)'],borderColor:'#12131a',borderWidth:2}]},
-  options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyle:'circle',font:{size:9}}}}}});
-
-// 4. Boleteras
-new Chart(document.getElementById('c4'),{type:'doughnut',data:{labels:['Fortunato','Gisela / Giselle / TicketCity','Boletomovil','Johanny/Giselle','Superboletos','Mistickets','Más boletos','Boletiworld','Otros'],
-  datasets:[{data:[14,13,3,3,1,1,1,1,8],backgroundColor:[G+'.7)','rgba(34,211,238,.6)','rgba(74,222,128,.5)','rgba(167,139,250,.5)','rgba(96,165,250,.5)','rgba(251,146,60,.4)','rgba(255,200,200,.3)','rgba(200,200,255,.3)','rgba(255,255,255,.08)'],borderColor:'#12131a',borderWidth:2}]},
-  options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyle:'circle',font:{size:9}}}}}});
-
-// 5. Entidad receptora
-new Chart(document.getElementById('c5'),{type:'doughnut',data:{labels:['Triunfador (Antigua)','Triomfar (Nueva - Empresarios)','Barza / Consorcio Barza (Nueva - Boleteras)','AO Directo / Efectivo','Mixto / Transición','Sin dato'],
-  datasets:[{data:[18,8,22,8,6,4],backgroundColor:[SPO+'.6)',MAR+'.7)','rgba(34,211,238,.6)','rgba(248,113,113,.5)',TRA+'.4)','rgba(255,255,255,.06)'],borderColor:'#12131a',borderWidth:2}]},
-  options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyle:'circle',font:{size:9}}}}}});
-
-// 6. Payment flow by structure
-new Chart(document.getElementById('c6'),{type:'bar',data:{labels:['Triunfador','AO Directo/Efectivo','Triomfar','Consorcio Barza','Barza Citibanamex','Boletomovil→Barza','Fortunato→Barza','Superboletos→Barza','Arema','Importex','Piso 7'],datasets:[
-  {label:'TRIUNFADOR (Antigua)',data:[16,5,0,0,0,0,0,0,0,1,0],backgroundColor:SPO+'.6)',borderRadius:3},
-  {label:'Transición',data:[5,2,0,0,1,0,0,0,1,0,1],backgroundColor:TRA+'.5)',borderRadius:3},
-  {label:'TRIOMFAR & BARZA',data:[0,1,6,6,7,3,4,1,0,0,0],backgroundColor:MAR+'.6)',borderRadius:3}
-]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{usePointStyle:true,pointStyle:'circle',padding:10}}},scales:{y:{beginAtZero:true,stacked:true,grid:{color:'rgba(255,255,255,.04)'}},x:{stacked:true,grid:{display:false}}}}});
-
-const ev=[
-// ─── FEBRERO ──────────────────────────────────────────────────────────────
+// ========== 2023 EVENTS ARRAY (exact source, 86 events) ==========
+const ev23=[// ─── FEBRERO ──────────────────────────────────────────────────────────────
 {n:1,f:'11 Feb',c:'Monterrey',e:'NL',v:'Arena Monterrey',em:'(con Luis R. Conríquez)',bo:'',ne:'$3.5K',mo:3500000,cp:'Efectivo directo a AO',er:'AO Directo',es:'TRIUNFADOR',no:'Pisteando Juntos Tour',so:false},
 {n:2,f:'18 Feb',c:'Autlán',e:'Jal',v:'Pza Toros Alberto Balderas',em:'Vendida por AO',bo:'',ne:'Garantía $3.5M',mo:3500000,cp:'Efectivo',er:'AO Directo',es:'TRIUNFADOR',no:'Carnaval Autlán — Se pagaron $3,500,000',so:false},
 {n:3,f:'19 Feb',c:'Jalostotitlán',e:'Jal',v:'Palenque',em:'Germán López García',bo:'',ne:'Garantía $3.5M',mo:5000000,cp:'Triunfador',er:'Triunfador',es:'TRIUNFADOR',no:'Carnaval Jalos — pagos desde ene',so:false},
@@ -278,32 +474,210 @@ const ev=[
 {n:84,f:'5 Dic',c:'Querétaro',e:'Qro',v:'Palenque Feria',em:'Hno. Julión',bo:'',ne:'80/20 libre',mo:0,cp:'',er:'',es:'TRIOMFAR & BARZA',no:'Nueva fecha',so:false},
 {n:85,f:'6 Dic',c:'Querétaro',e:'Qro',v:'Palenque Feria',em:'Hno. Julión',bo:'',ne:'80/20 libre',mo:0,cp:'',er:'',es:'TRIOMFAR & BARZA',no:'',so:false},
 {n:86,f:'8 Dic',c:'Orizaba',e:'Ver',v:'Coliseo La Concordia',em:'Ramiro',bo:'Gisela',ne:'90/10',mo:0,cp:'',er:'',es:'TRIOMFAR & BARZA',no:'SOLD OUT — OMEGA cierre gira',so:true},
-{n:87,f:'28 Dic',c:'Jalisco',e:'Jal',v:'(Particular)',em:'',bo:'',ne:'',mo:350000,cp:'Efectivo',er:'AO Directo',es:'N/A',no:'Evento privado',so:false},
-];
+{n:87,f:'28 Dic',c:'Jalisco',e:'Jal',v:'(Particular)',em:'',bo:'',ne:'',mo:350000,cp:'Efectivo',er:'AO Directo',es:'N/A',no:'Evento privado',so:false},];
 
-function fCP(cp){if(!cp)return'';if(cp.toLowerCase().includes('efectivo')||cp.toLowerCase().includes('piso'))return'<span class="b-ef">'+cp+'</span>';return cp}
-function fES(es){if(es==='TRIUNFADOR')return'<span class="bg b-spo">TRIUNFADOR</span>';if(es==='TRIOMFAR & BARZA')return'<span class="bg b-mar">TRIOMFAR <span class="amp">&amp;</span> BARZA</span>';if(es==='TRANS')return'<span class="bg b-tra">TRANSICIÓN</span>';return'<span class="bg b-na">'+es+'</span>'}
-function fN(n){return n?'$'+n.toLocaleString('es-MX'):'—'}
+// ========== YEAR SWITCHING ==========
+const navBtns = document.querySelectorAll('.ynv button');
+const views = document.querySelectorAll('.yview');
+const rendered = {'2025':false}; // 2025 renders on initial load
 
-function renderT(d){let rows='',total=0;
+navBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const y = btn.dataset.y;
+    navBtns.forEach(b => b.classList.remove('ac'));
+    btn.classList.add('ac');
+    views.forEach(v => v.classList.remove('ac'));
+    document.getElementById('view-' + y).classList.add('ac');
+    window.scrollTo({top:0,behavior:'smooth'});
+    setTimeout(() => renderYear(y), 120);
+  });
+});
+
+function renderYear(y){
+  if(rendered[y])return;
+  rendered[y]=true;
+  if(y==='2023')render23();
+  if(y==='2024')render24();
+  if(y==='2025')render25();
+  if(y==='2026')render26();
+  if(y==='cons')renderCons();
+}
+
+// ========== HELPERS ==========
+function fmt(n){if(Math.abs(n)>=1e6)return '$'+(n/1e6).toFixed(2)+'M';if(Math.abs(n)>=1e3)return '$'+(n/1e3).toFixed(0)+'K';return '$'+n.toFixed(0)}
+function fmtDate(s){if(!s)return '';if(s.length===10){const[y,m,d]=s.split('-');return `${d}/${m}/${y.slice(2)}`}return s}
+
+// ========== 2023 ==========
+function render23(){
+  // c0 Structure
+  new Chart(document.getElementById('c0'),{type:'doughnut',data:{labels:['TRIUNFADOR (Antigua)','Transición','TRIOMFAR & BARZA','Fuera de estructura'],
+    datasets:[{data:[20,10,30,4],backgroundColor:[SPO+'.6)',TRA+'.5)',MAR+'.6)','rgba(255,255,255,.08)'],borderColor:'#12131a',borderWidth:3}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{padding:12,usePointStyle:true,pointStyle:'circle'}}}}});
+  // c1 Monthly by structure
+  new Chart(document.getElementById('c1'),{type:'bar',data:{labels:['Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],datasets:[
+    {label:'TRIUNFADOR',data:[3,3,5,8,4,1,0,0,0,0,0],backgroundColor:SPO+'.6)',borderRadius:3,barPercentage:.75},
+    {label:'Transición',data:[0,0,0,1,1,9,0,0,0,0,0],backgroundColor:TRA+'.5)',borderRadius:3,barPercentage:.75},
+    {label:'TRIOMFAR & BARZA',data:[0,0,0,0,0,4,4,8,7,5,6],backgroundColor:MAR+'.6)',borderRadius:3,barPercentage:.75}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{usePointStyle:true,pointStyle:'circle',padding:10,font:{size:10}}}},scales:{y:{beginAtZero:true,stacked:true,grid:{color:'rgba(255,255,255,.04)'}},x:{stacked:true,grid:{display:false}}}}});
+  // c2 Top empresarios
+  new Chart(document.getElementById('c2'),{type:'bar',data:{labels:['Rogelio "El Calá"','Gerardo Raya','Julio César','Germán/Israel López','Álvaro Rogel','Edgar Rodríguez','J.L. Ledezma','Víctor Cabrera','Chaguín','Lupita Cervantes'],
+    datasets:[{data:[6,5,4,3,3,2,3,2,2,2],backgroundColor:G+'.4)',borderColor:G+'.7)',borderWidth:1,borderRadius:3,barPercentage:.6}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false}}}}});
+  // c3 Negotiation
+  new Chart(document.getElementById('c3'),{type:'doughnut',data:{labels:['90/10 taquilla + barra','80/20 libre de gastos','85/15 libre de gastos','75/25 taquilla','Garantía fija','100% taquilla','Fecha pagada (monto fijo)'],
+    datasets:[{data:[32,8,3,2,3,1,3],backgroundColor:[G+'.7)','rgba(96,165,250,.5)','rgba(167,139,250,.5)','rgba(74,222,128,.5)','rgba(251,146,60,.5)','rgba(244,114,182,.4)','rgba(34,211,238,.4)'],borderColor:'#12131a',borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyle:'circle',font:{size:9}}}}}});
+  // c4 Boleteras
+  new Chart(document.getElementById('c4'),{type:'doughnut',data:{labels:['Fortunato','Gisela / Giselle / TicketCity','Boletomovil','Johanny/Giselle','Superboletos','Mistickets','Más boletos','Boletiworld','Otros'],
+    datasets:[{data:[14,13,3,3,1,1,1,1,8],backgroundColor:[G+'.7)','rgba(34,211,238,.6)','rgba(74,222,128,.5)','rgba(167,139,250,.5)','rgba(96,165,250,.5)','rgba(251,146,60,.4)','rgba(255,200,200,.3)','rgba(200,200,255,.3)','rgba(255,255,255,.08)'],borderColor:'#12131a',borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyle:'circle',font:{size:9}}}}}});
+  // c5 Entidad
+  new Chart(document.getElementById('c5'),{type:'doughnut',data:{labels:['Triunfador (Antigua)','Triomfar (Nueva - Empresarios)','Barza / Consorcio Barza (Nueva - Boleteras)','AO Directo / Efectivo','Mixto / Transición','Sin dato'],
+    datasets:[{data:[18,8,22,8,6,4],backgroundColor:[SPO+'.6)',MAR+'.7)','rgba(34,211,238,.6)','rgba(248,113,113,.5)',TRA+'.4)','rgba(255,255,255,.06)'],borderColor:'#12131a',borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyle:'circle',font:{size:9}}}}}});
+  // c6 Payment flow
+  new Chart(document.getElementById('c6'),{type:'bar',data:{labels:['Triunfador','AO Directo/Efectivo','Triomfar','Consorcio Barza','Barza Citibanamex','Boletomovil→Barza','Fortunato→Barza','Superboletos→Barza','Arema','Importex','Piso 7'],datasets:[
+    {label:'TRIUNFADOR (Antigua)',data:[16,5,0,0,0,0,0,0,0,1,0],backgroundColor:SPO+'.6)',borderRadius:3},
+    {label:'Transición',data:[5,2,0,0,1,0,0,0,1,0,1],backgroundColor:TRA+'.5)',borderRadius:3},
+    {label:'TRIOMFAR & BARZA',data:[0,1,6,6,7,3,4,1,0,0,0],backgroundColor:MAR+'.6)',borderRadius:3}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{usePointStyle:true,pointStyle:'circle',padding:10}}},scales:{y:{beginAtZero:true,stacked:true,grid:{color:'rgba(255,255,255,.04)'}},x:{stacked:true,grid:{display:false}}}}});
+  // cCFDI
+  new Chart(document.getElementById('cCFDI'),{type:'bar',data:{labels:['Triunfador Logística\n(35 facturas)','SACM Regalías\n(17 facturas)','Triomfar\n(1 factura)'],
+    datasets:[{data:[37680359,2960806,1551724],backgroundColor:[SPO+'.7)',G+'.5)',MAR+'.7)'],borderColor:[SPO+'.9)',G+'.7)',MAR+'.9)'],borderWidth:1,borderRadius:6,barPercentage:.5}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'$'+ctx.parsed.y.toLocaleString('es-MX')}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'},ticks:{callback:v=>'$'+(v/1000000).toFixed(0)+'M'}},x:{grid:{display:false}}}}});
+  // Render table
+  renderT23(ev23);
+}
+
+function fCP23(cp){if(!cp)return'';if(cp.toLowerCase().includes('efectivo')||cp.toLowerCase().includes('piso'))return'<span class="b-ef">'+cp+'</span>';return cp}
+function fES23(es){if(es==='TRIUNFADOR')return'<span class="bg b-spo">TRIUNFADOR</span>';if(es==='TRIOMFAR & BARZA')return'<span class="bg b-mar">TRIOMFAR <span class="amp">&amp;</span> BARZA</span>';if(es==='TRANS')return'<span class="bg b-tra">TRANSICIÓN</span>';return'<span class="bg b-na">'+es+'</span>'}
+function fN23(n){return n?'$'+n.toLocaleString('es-MX'):'—'}
+function renderT23(d){let rows='',total=0;
   d.forEach(e=>{total+=e.mo;const sb=e.so?'<span class="bg b-so">SOLD OUT</span> ':'';
-    rows+=`<tr><td>${e.n}</td><td style="white-space:nowrap;font-size:10px">${e.f}</td><td><strong style="color:var(--t)">${e.c}</strong></td><td style="font-size:10px">${e.e}</td><td style="color:var(--t3);font-size:10px">${e.v}</td><td style="font-size:10px">${e.em}</td><td style="font-size:10px">${e.bo}</td><td style="font-size:10px">${e.ne}</td><td style="color:var(--gold);font-weight:600;font-size:10px">${e.mo?fN(e.mo):'—'}</td><td style="font-size:10px">${fCP(e.cp)}</td><td style="font-size:10px">${e.er}</td><td>${fES(e.es)}</td><td style="font-size:10px">${sb}${e.no}</td></tr>`});
-  rows+=`<tr class="total-row"><td colspan="8" style="text-align:right;font-family:'Playfair Display',serif;font-size:14px;color:var(--gold);padding:14px 10px;font-weight:900;letter-spacing:1px">TOTAL FINAL</td><td style="font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);font-weight:900;padding:14px 6px">${fN(total)}</td><td colspan="4" style="font-size:10px;color:var(--t2);padding:14px 6px">${d.length} eventos · Montos documentados</td></tr>`;
-  document.getElementById('tb').innerHTML=rows}
-renderT(ev);
+    rows+=`<tr><td>${e.n}</td><td style="white-space:nowrap;font-size:10px">${e.f}</td><td><strong style="color:var(--t)">${e.c}</strong></td><td style="font-size:10px">${e.e}</td><td style="color:var(--t3);font-size:10px">${e.v}</td><td style="font-size:10px">${e.em}</td><td style="font-size:10px">${e.bo}</td><td style="font-size:10px">${e.ne}</td><td style="color:var(--gold);font-weight:600;font-size:10px">${e.mo?fN23(e.mo):'—'}</td><td style="font-size:10px">${fCP23(e.cp)}</td><td style="font-size:10px">${e.er}</td><td>${fES23(e.es)}</td><td style="font-size:10px">${sb}${e.no}</td></tr>`});
+  rows+=`<tr class="total-row"><td colspan="8" style="text-align:right;font-family:'Playfair Display',serif;font-size:14px;color:var(--gold);padding:14px 10px;font-weight:900;letter-spacing:1px">TOTAL FINAL</td><td style="font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);font-weight:900;padding:14px 6px">${fN23(total)}</td><td colspan="4" style="font-size:10px;color:var(--t2);padding:14px 6px">${d.length} eventos &middot; Montos documentados</td></tr>`;
+  document.getElementById('tb23').innerHTML=rows}
+function ft23(t,b){document.querySelectorAll('#view-2023 .fb').forEach(x=>x.classList.remove('ac'));b.classList.add('ac');
+  if(t==='all')renderT23(ev23);else if(t==='spo')renderT23(ev23.filter(e=>e.es==='TRIUNFADOR'));else if(t==='trans')renderT23(ev23.filter(e=>e.es==='TRANS'));else if(t==='mar')renderT23(ev23.filter(e=>e.es==='TRIOMFAR & BARZA'));else if(t==='so')renderT23(ev23.filter(e=>e.so));else if(t==='ef')renderT23(ev23.filter(e=>e.cp.toLowerCase().includes('efectivo')||e.cp.toLowerCase().includes('piso')))}
 
-document.getElementById('si').addEventListener('input',function(){const q=this.value.toLowerCase();renderT(ev.filter(e=>(e.c+e.e+e.v+e.em+e.bo+e.no+e.ne+e.cp+e.er).toLowerCase().includes(q)))});
-function ft(t,b){document.querySelectorAll('.fb').forEach(x=>x.classList.remove('ac'));b.classList.add('ac');
-  if(t==='all')renderT(ev);else if(t==='spo')renderT(ev.filter(e=>e.es==='TRIUNFADOR'));else if(t==='trans')renderT(ev.filter(e=>e.es==='TRANS'));else if(t==='mar')renderT(ev.filter(e=>e.es==='TRIOMFAR & BARZA'));else if(t==='so')renderT(ev.filter(e=>e.so));else if(t==='ef')renderT(ev.filter(e=>e.cp.toLowerCase().includes('efectivo')||e.cp.toLowerCase().includes('piso')))}
+// ========== 2024 ==========
+let f24='all';
+function render24(){
+  const d=D.y2024;
+  const mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const mdata=mn.map((_,i)=>d.monthly[(i+1).toString()]||0);
+  new Chart(document.getElementById('c24_1'),{type:'bar',data:{labels:mn,datasets:[{label:'Eventos',data:mdata,backgroundColor:G+'.7)',borderRadius:3,barPercentage:.7}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
+  new Chart(document.getElementById('c24_2'),{type:'doughnut',data:{labels:['AO Solo','PDA (50/50)','Sin asignar'],
+    datasets:[{data:[d.aopda.AO||0,d.aopda.PDA||0,d.aopda['Sin asignar']||0],backgroundColor:[G+'.7)',BL+'.6)','rgba(255,255,255,.08)'],borderColor:'#12131a',borderWidth:3}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{padding:12,usePointStyle:true,pointStyle:'circle'}}}}});
+  const se=Object.entries(d.states).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  new Chart(document.getElementById('c24_3'),{type:'bar',data:{labels:se.map(e=>e[0]),datasets:[{data:se.map(e=>e[1]),backgroundColor:G+'.5)',borderColor:G+'.8)',borderWidth:1,borderRadius:3,barPercentage:.6}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false}}}}});
+  const be=Object.entries(d.boleteras).filter(([k])=>k!=='Sin definir').sort((a,b)=>b[1]-a[1]);
+  new Chart(document.getElementById('c24_4'),{type:'doughnut',data:{labels:be.map(e=>e[0]),
+    datasets:[{data:be.map(e=>e[1]),backgroundColor:[G+'.7)',CY+'.6)',GR+'.5)',PR+'.5)',BL+'.5)',OR+'.5)',PK+'.4)',TRA+'.4)'],borderColor:'#12131a',borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{padding:8,usePointStyle:true,pointStyle:'circle',font:{size:9}}}}}});
+  renderT24();
+}
+function renderT24(){
+  let ev=D.y2024.events;
+  const q=(document.getElementById('si24').value||'').toLowerCase();
+  if(f24==='ao')ev=ev.filter(e=>e.aopda==='AO');
+  else if(f24==='pda')ev=ev.filter(e=>e.aopda==='PDA');
+  else if(f24==='declared')ev=ev.filter(e=>e.monto&&e.monto.startsWith('$'));
+  if(q)ev=ev.filter(e=>((e.ciudad||'')+(e.estado||'')+(e.venue||'')+(e.boletera||'')).toLowerCase().includes(q));
+  const rows=ev.map(e=>{
+    const tipo=e.aopda==='AO'?'<span class="bg b-ao">AO</span>':e.aopda==='PDA'?'<span class="bg b-pda">PDA</span>':'<span class="bg b-na">—</span>';
+    const mcls=(e.monto||'').startsWith('$')?'color:var(--gold);font-weight:600':'';
+    return `<tr><td>${e.n}</td><td style="white-space:nowrap;font-size:10px">${fmtDate(e.fecha)}</td><td><strong style="color:var(--t)">${e.ciudad}</strong></td><td style="font-size:10px">${e.estado}</td><td style="color:var(--t3);font-size:10px">${e.venue||'—'}</td><td>${tipo}</td><td style="font-size:10px">${e.boletera||'—'}</td><td style="font-size:10px">${e.nego||'—'}</td><td style="font-size:10px;${mcls}">${e.monto||'—'}</td><td style="font-size:10px">${e.produccion||'—'}</td></tr>`;
+  }).join('');
+  document.getElementById('tb24').innerHTML=rows||'<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--t3)">Sin resultados</td></tr>';
+}
+function ft24(t,b){f24=t;document.querySelectorAll('#view-2024 .fb').forEach(x=>x.classList.remove('ac'));b.classList.add('ac');renderT24()}
 
-// CFDI Facturación
-new Chart(document.getElementById('cCFDI'),{type:'bar',data:{
-  labels:['Triunfador Logística\n(35 facturas)','SACM Regalías\n(17 facturas)','Triomfar\n(1 factura)'],
-  datasets:[{data:[37680359,2960806,1551724],
-    backgroundColor:[SPO+'.7)',G+'.5)',MAR+'.7)'],borderColor:[SPO+'.9)',G+'.7)',MAR+'.9)'],borderWidth:1,borderRadius:6,barPercentage:.5}]},
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'$'+ctx.parsed.y.toLocaleString('es-MX')}}},
-    scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'},ticks:{callback:v=>'$'+(v/1000000).toFixed(0)+'M'}},x:{grid:{display:false}}}}});
+// ========== 2025 ==========
+let f25='all';
+function render25(){
+  const d=D.y2025;const mn=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  // c25_1 Monthly P&L
+  new Chart(document.getElementById('c25_1'),{type:'bar',data:{labels:mn,datasets:[
+    {label:'Ingresos',data:d.monthly_ing.map(v=>v/1e6),backgroundColor:G+'.7)',borderRadius:3,order:2},
+    {label:'Gasto Total',data:d.monthly_gas.map(v=>v/1e6),backgroundColor:RD+'.55)',borderRadius:3,order:2},
+    {label:'Utilidad',data:d.monthly_uti.map(v=>v/1e6),type:'line',borderColor:GR+'1)',backgroundColor:GR+'.15)',borderWidth:2.5,tension:.35,pointRadius:4,pointBackgroundColor:GR+'1)',fill:true,order:1}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{usePointStyle:true,pointStyle:'circle',padding:14}},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': $'+ctx.parsed.y.toFixed(1)+'M'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'},ticks:{callback:v=>'$'+v+'M'}},x:{grid:{display:false}}}}});
+  // c25_2 Top Utilidad
+  const tu=d.top_util.slice(0,10);
+  new Chart(document.getElementById('c25_2'),{type:'bar',data:{labels:tu.map(e=>e.evento.slice(0,18)),datasets:[{label:'Utilidad',data:tu.map(e=>e.utilidad/1e6),backgroundColor:GR+'.6)',borderColor:GR+'.85)',borderWidth:1,borderRadius:3,barPercentage:.7}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'$'+ctx.parsed.x.toFixed(2)+'M'}}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'},ticks:{callback:v=>'$'+v+'M'}},y:{grid:{display:false}}}}});
+  // c25_3 Top Ingreso
+  const ti=d.top_ing.slice(0,10);
+  new Chart(document.getElementById('c25_3'),{type:'bar',data:{labels:ti.map(e=>e.evento.slice(0,18)),datasets:[{label:'Ingresos',data:ti.map(e=>e.ingresos/1e6),backgroundColor:G+'.6)',borderColor:G+'.85)',borderWidth:1,borderRadius:3,barPercentage:.7}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'$'+ctx.parsed.x.toFixed(2)+'M'}}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'},ticks:{callback:v=>'$'+v+'M'}},y:{grid:{display:false}}}}});
+  // c25_4 Ext vs Int
+  new Chart(document.getElementById('c25_4'),{type:'doughnut',data:{labels:['Gastos Externos','Gastos Internos'],
+    datasets:[{data:[d.ext_vs_int.ext/1e6,d.ext_vs_int.int/1e6],backgroundColor:[OR+'.7)',BL+'.7)'],borderColor:'#12131a',borderWidth:3}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{padding:12,usePointStyle:true,pointStyle:'circle'}},tooltip:{callbacks:{label:ctx=>ctx.label+': $'+ctx.parsed.toFixed(1)+'M'}}}}});
+  // c25_5 Margen
+  const ec=d.events.filter(e=>e.pct_util>0).slice().sort((a,b)=>(a.fecha||'').localeCompare(b.fecha||''));
+  new Chart(document.getElementById('c25_5'),{type:'line',data:{labels:ec.map(e=>e.evento.slice(0,12)),datasets:[
+    {label:'Margen %',data:ec.map(e=>e.pct_util),borderColor:G+'1)',backgroundColor:G+'.1)',borderWidth:2,tension:.35,pointRadius:3.5,pointBackgroundColor:ec.map(e=>e.pct_util<50?RD+'1)':e.pct_util>85?GR+'1)':G+'1)'),fill:true}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toFixed(1)+'%'}}},scales:{y:{beginAtZero:true,max:100,grid:{color:'rgba(255,255,255,.04)'},ticks:{callback:v=>v+'%'}},x:{grid:{display:false},ticks:{maxRotation:60,minRotation:45,font:{size:8}}}}}});
+  // Low margin cards
+  document.getElementById('lm-grid').innerHTML=d.low_margin.map(e=>`<div class="kpc"><div class="l">${e.evento} &middot; ${fmtDate(e.fecha)}</div><div class="v red">${e.pct_util.toFixed(1)}%</div><div class="s">Ing ${fmt(e.ingresos)} &middot; Gasto ${fmt(e.gasto_total)} &middot; Util ${fmt(e.utilidad)}</div></div>`).join('');
+  document.getElementById('lm-count').textContent=d.low_margin.length+' eventos';
+  document.getElementById('hm-grid').innerHTML=d.high_margin.map(e=>`<div class="kpc"><div class="l">${e.evento}</div><div class="v grn sm">${e.pct_util.toFixed(1)}%</div><div class="s">${fmtDate(e.fecha)} &middot; Util ${fmt(e.utilidad)}</div></div>`).join('');
+  renderT25();
+}
+function renderT25(){
+  let ev=D.y2025.events;const q=(document.getElementById('si25').value||'').toLowerCase();
+  if(f25==='hi')ev=ev.filter(e=>e.pct_util>80);
+  else if(f25==='lo')ev=ev.filter(e=>e.pct_util>0&&e.pct_util<50);
+  else if(f25==='nodata')ev=ev.filter(e=>e.ingresos===0);
+  if(q)ev=ev.filter(e=>e.evento.toLowerCase().includes(q));
+  const rows=ev.map(e=>{
+    const mcls=e.pct_util>=80?'color:var(--grn);font-weight:600':e.pct_util>0&&e.pct_util<50?'color:var(--red);font-weight:600':e.pct_util===0?'color:var(--t3)':'color:var(--gold);font-weight:600';
+    return `<tr><td style="white-space:nowrap;font-size:10px">${fmtDate(e.fecha)||e.fecha}</td><td><strong style="color:var(--t)">${e.evento}</strong></td><td style="font-size:10px;color:var(--gold)">${fmt(e.ingresos)}</td><td style="font-size:10px">${e.gastos_ext?fmt(e.gastos_ext):'—'}</td><td style="font-size:10px">${fmt(e.gastos_int)}</td><td style="font-size:10px;color:var(--red)">${fmt(e.gasto_total)}</td><td style="font-size:10px;color:var(--grn);font-weight:600">${fmt(e.utilidad)}</td><td style="font-size:11px;${mcls}">${e.pct_util?e.pct_util.toFixed(1)+'%':'—'}</td></tr>`;
+  }).join('');
+  const sI=ev.reduce((s,e)=>s+e.ingresos,0),sE=ev.reduce((s,e)=>s+e.gastos_ext,0),sIn=ev.reduce((s,e)=>s+e.gastos_int,0),sG=ev.reduce((s,e)=>s+e.gasto_total,0),sU=ev.reduce((s,e)=>s+e.utilidad,0);
+  const mrg=sI>0?(sU/sI*100):0;
+  const tot=`<tr class="total-row"><td colspan="2" style="text-align:right;font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);padding:14px 10px;font-weight:900;letter-spacing:1px">TOTAL FILTRADO (${ev.length} eventos)</td><td style="font-family:'Playfair Display',serif;color:var(--gold);font-weight:900;padding:14px 6px">${fmt(sI)}</td><td style="font-family:'Playfair Display',serif;color:var(--gold);font-weight:900;padding:14px 6px">${fmt(sE)}</td><td style="font-family:'Playfair Display',serif;color:var(--gold);font-weight:900;padding:14px 6px">${fmt(sIn)}</td><td style="font-family:'Playfair Display',serif;color:var(--red);font-weight:900;padding:14px 6px">${fmt(sG)}</td><td style="font-family:'Playfair Display',serif;color:var(--grn);font-weight:900;padding:14px 6px">${fmt(sU)}</td><td style="font-family:'Playfair Display',serif;color:var(--gold);font-weight:900;padding:14px 6px">${mrg.toFixed(1)}%</td></tr>`;
+  document.getElementById('tb25').innerHTML=(rows||'<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--t3)">Sin resultados</td></tr>')+tot;
+}
+function ft25(t,b){f25=t;document.querySelectorAll('#view-2025 .fb').forEach(x=>x.classList.remove('ac'));b.classList.add('ac');renderT25()}
 
+// ========== 2026 ==========
+function render26(){
+  const ev=D.y2026.events,t=D.y2026.totals;
+  const rows=ev.map(e=>`<tr><td style="white-space:nowrap;font-size:10px">${fmtDate(e.fecha)}</td><td><strong style="color:var(--t)">${e.evento}</strong></td><td style="font-size:10px;color:var(--gold)">${fmt(e.ingresos)}</td><td style="font-size:10px">${e.gastos_ext?fmt(e.gastos_ext):'—'}</td><td style="font-size:10px">${fmt(e.gastos_int)}</td><td style="font-size:10px;color:var(--red)">${fmt(e.gasto_total)}</td><td style="font-size:10px;color:var(--grn);font-weight:600">${fmt(e.utilidad)}</td><td style="font-size:11px;color:var(--grn);font-weight:600">${e.pct_util.toFixed(1)}%</td></tr>`).join('');
+  const tot=`<tr class="total-row"><td colspan="2" style="text-align:right;font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);padding:14px 10px;font-weight:900;letter-spacing:1px">TOTAL (${ev.length} eventos)</td><td style="font-family:'Playfair Display',serif;color:var(--gold);font-weight:900;padding:14px 6px">${fmt(t.ingresos)}</td><td style="font-family:'Playfair Display',serif;color:var(--gold);font-weight:900;padding:14px 6px">${fmt(t.gastos_ext)}</td><td style="font-family:'Playfair Display',serif;color:var(--gold);font-weight:900;padding:14px 6px">${fmt(t.gastos_int)}</td><td style="font-family:'Playfair Display',serif;color:var(--red);font-weight:900;padding:14px 6px">${fmt(t.gasto_total)}</td><td style="font-family:'Playfair Display',serif;color:var(--grn);font-weight:900;padding:14px 6px">${fmt(t.utilidad)}</td><td style="font-family:'Playfair Display',serif;color:var(--gold);font-weight:900;padding:14px 6px">${t.margen.toFixed(1)}%</td></tr>`;
+  document.getElementById('tb26').innerHTML=rows+tot;
+}
+
+// ========== CONSOLIDADO ==========
+function renderCons(){
+  new Chart(document.getElementById('cc_1'),{type:'bar',data:{labels:['2023','2024','2025','2026'],
+    datasets:[{data:[87,61,48,2],backgroundColor:[SPO+'.7)',TRA+'.6)',G+'.7)',MAR+'.7)'],borderColor:[SPO+'.9)',TRA+'.8)',G+'.9)',MAR+'.9)'],borderWidth:1,borderRadius:6,barPercentage:.5}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
+  // Monthly evolution
+  const m23=[0,3,3,5,9,5,14,4,8,7,5,6];
+  const m24a=[0,0,0,0,0,0,0,0,0,0,0,0];Object.entries(D.y2024.monthly).forEach(([k,v])=>m24a[parseInt(k)-1]=v);
+  const m25=D.y2025.monthly_cnt;
+  new Chart(document.getElementById('cc_2'),{type:'line',data:{labels:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],datasets:[
+    {label:'2023',data:m23,borderColor:SPO+'1)',backgroundColor:SPO+'.08)',borderWidth:2,tension:.4,pointRadius:3.5,pointBackgroundColor:SPO+'1)'},
+    {label:'2024',data:m24a,borderColor:TRA+'1)',backgroundColor:TRA+'.08)',borderWidth:2,tension:.4,pointRadius:3.5,pointBackgroundColor:TRA+'1)'},
+    {label:'2025',data:m25,borderColor:G+'1)',backgroundColor:G+'.08)',borderWidth:2.5,tension:.4,pointRadius:3.5,pointBackgroundColor:G+'1)'}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{usePointStyle:true,pointStyle:'circle',padding:14}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
+}
+
+// Search input listeners (script runs at end of body, DOM is ready)
+document.getElementById('si23').addEventListener('input',function(){const q=this.value.toLowerCase();renderT23(ev23.filter(e=>(e.c+e.e+e.v+e.em+e.bo+e.no+e.ne+e.cp+e.er).toLowerCase().includes(q)))});
+document.getElementById('si24').addEventListener('input',renderT24);
+document.getElementById('si25').addEventListener('input',renderT25);
+
+// Initial render
+render25();
+rendered['2025']=true;
 </script>
 </body>
 </html>
